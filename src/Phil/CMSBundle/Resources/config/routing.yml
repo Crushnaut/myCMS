@@ -1,0 +1,6 @@
+# src/Blogger/BlogBundle/Resources/config/routing.yml
+PhilCMSBundle_about:
+    pattern:  /about
+    defaults: { _controller: PhilCMSBundle:Content:about }
+    requirements:
+        _method:  GET

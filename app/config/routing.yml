@@ -1,0 +1,4 @@
+phil_cms:
+    resource: "@PhilCMSBundle/Resources/config/routing.yml"
+    prefix:   /
+

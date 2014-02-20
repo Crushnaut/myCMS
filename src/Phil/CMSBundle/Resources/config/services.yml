@@ -1,0 +1,7 @@
+parameters:
+#    phil_cms.example.class: Phil\CMSBundle\Example
+
+services:
+#    phil_cms.example:
+#        class: %phil_cms.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

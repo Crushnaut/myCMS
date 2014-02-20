@@ -1,0 +1,74 @@
+{# app/Resources/views/base.html.twig #}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}philmowatt.com{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets 'css/*' %}
+                <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+            {% endstylesheets %}
+        {% endblock %}
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">
+                <div id="logo">
+                    {% block logo %}
+                        logo
+                    {% endblock %}
+                </div>
+                <div id="search">
+                    {% block search %}
+                        <p>Search for keyword or phrase: 
+                            <label>
+                                <input type="text" name="textfield" id="textfield" />
+                                <input type="submit" name="button" id="button" value="Submit" />
+                            </label>
+                        </p>
+                    {% endblock %}
+                </div>
+                    <div id="titlebar">
+                        {% block titlebar %}
+                           <p>PHILMOWATT.COM</p>
+                        {% endblock %}
+                    </div>
+            </div>
+            <div id="banner">
+                <div id="usernav">
+                    {% block usermenu %}
+                        <a href="#1">Log-in</a>
+                        <a href="#2">Register</a>
+                    {% endblock %}
+                </div>
+            </div>
+            <div id="firstnav">
+                {% block mainmenu %}
+                    <a href="#1">About</a>
+                    <a href="#2">Resume</a>
+                    <a href="#3">Blog</a>
+                    <a href="#4">Contact</a>
+                    <a href="#5">Images</a>
+                    <a href="#6" id="activeTab">Projects</a>
+                {% endblock %}
+            </div>
+            <div id="contentcontainer">
+                <div id="secondnav">
+                    {% block submenu %}
+                    {% endblock %}
+                </div>
+                <div id="content">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div id="footer">
+                {% block footer %}
+                    <p>This page was lasted editted on Feb 19th, 2014 by pmowatt.<br />
+                    Website design, layout, and maintenence preformed by Phil Mowatt.</p>
+                {% endblock %}
+            </div>
+        </div>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
