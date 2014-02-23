@@ -11,4 +11,9 @@ class ContentController extends Controller
 	{
 		return $this->render('PhilCMSBundle:Content:about.html.twig');
 	}
+
+    public function pageAction($slug)
+    {
+
+    }
 }
