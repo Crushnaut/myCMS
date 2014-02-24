@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class CategoryRepository extends EntityRepository
 {
+    public function getVisibleCategories()
+    {
+        $qb = $this->createQueryBuilder('c')
+                   ->select('c')
+                   ->where('c.visible = :visibility')
+                   ->addOrderBy('c.menuorder')
+                   ->setParameter('visibility', 1);
+
+        return $qb->getQuery()
+                  ->getResult();
+    }
 }

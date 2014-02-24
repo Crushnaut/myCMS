@@ -7,13 +7,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MenuController extends Controller
 {
-    public function mainmenuAction()
+    public function mainmenuAction($slug)
     {
-        
+        $em = $this->getDoctrine()
+                   ->getManager();
+
+        $cats = $em->getRepository('PhilCMSBundle:Category')
+                   ->getVisibleCategories();
+
+        return $this->render('PhilCMSBundle:Menu:main.html.twig', array('cats' => $cats, 'slug' => $slug));
     }
 
-    public function submenuAction()
+    public function submenuAction($slug)
     {
-        
+
     }
 }

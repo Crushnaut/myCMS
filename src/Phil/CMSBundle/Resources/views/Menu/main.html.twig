@@ -1,0 +1,4 @@
+{# src/Phil/CMSBundle/Resources/views/Menu/main.html.twig #}
+{% for cat in cats %}
+    <a href="{{ path('PhilCMSBundle_content_show', { 'slug': cat.slug }) }}"{% if slug == cat.slug %} id="activeTab"{% endif %}>{{ cat.name }}</a>
+{% endfor %}

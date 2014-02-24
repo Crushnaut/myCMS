@@ -44,12 +44,7 @@
             </div>
             <div id="firstnav">
                 {% block mainmenu %}
-                    <a href="#1">About</a>
-                    <a href="#2">Resume</a>
-                    <a href="#3">Blog</a>
-                    <a href="#4">Contact</a>
-                    <a href="#5">Images</a>
-                    <a href="#6" id="activeTab">Projects</a>
+                    {% render controller("PhilCMSBundle:Menu:mainmenu", { 'slug': app.request.get('slug')}) %}
                 {% endblock %}
             </div>
             <div id="contentcontainer">
