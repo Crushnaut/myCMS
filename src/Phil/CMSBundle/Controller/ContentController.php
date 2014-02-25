@@ -12,8 +12,21 @@ class ContentController extends Controller
 		return $this->render('PhilCMSBundle:Content:about.html.twig');
 	}
 
-    public function showAction($slug)
+    public function showAction($slug, $subslug = null)
     {
-        return $this->render('PhilCMSBundle:Content:show.html.twig');
+        $em = $this->getDoctrine()
+                   ->getManager();
+
+        if (is_null($subslug))
+        {
+            $page = $em->getRepository('PhilCMSBundle:Page')
+                       ->findOneBySlug($slug);
+        } else 
+        {
+            $page = $em->getRepository('PhilCMSBundle:Page')
+                       ->findOneBySlug($subslug);
+        }
+
+        return $this->render('PhilCMSBundle:Content:show.html.twig', array('page' => $page));
     }
 }

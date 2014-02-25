@@ -2,10 +2,5 @@
 {% extends '::base.html.twig' %}
 
 {% block submenu %}
-    <a href="#1">Websites</a>
-    <a href="#2">RPGs</a>
-    <a href="#3">Writing</a>
-    <a href="#4">Images</a>
-    <a href="#5">CSS</a>
-    <a href="#6" id="activeTab">Stories</a>
+    {% render controller("PhilCMSBundle:Menu:submenu", { 'slug': app.request.get('slug'), 'subslug': app.request.get('subslug')}) %}
 {% endblock %}

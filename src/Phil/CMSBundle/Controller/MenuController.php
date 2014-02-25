@@ -18,8 +18,24 @@ class MenuController extends Controller
         return $this->render('PhilCMSBundle:Menu:main.html.twig', array('cats' => $cats, 'slug' => $slug));
     }
 
-    public function submenuAction($slug)
+    public function submenuAction($slug, $subslug = null)
     {
+        $em = $this->getDoctrine()
+                   ->getManager();
 
+        $categoryId = $em->getRepository('PhilCMSBundle:Page')
+                         ->findOneBySlug($slug)
+                         ->getCategory()
+                         ->getId();
+
+        $pages = $em->getRepository('PhilCMSBundle:Page')
+                    ->getPagesFromCategory($categoryId);
+
+        if (is_null($subslug))
+        {   
+            return $this->render('PhilCMSBundle:Menu:sub.html.twig', array('pages' => $pages, 'slug' => $slug));
+        }
+
+        return $this->render('PhilCMSBundle:Menu:sub.html.twig', array('pages' => $pages, 'slug' => $subslug));
     }
 }

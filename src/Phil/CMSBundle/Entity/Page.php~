@@ -50,6 +50,11 @@ class Page
      */
     protected $visible;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $content;
+
     public function __construct()
     {
         $this->setCreated(new \DateTime());
@@ -214,5 +219,15 @@ class Page
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Get visible
+     *
+     * @return boolean 
+     */
+    public function getVisible()
+    {
+        return $this->visible;
     }
 }

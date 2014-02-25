@@ -176,4 +176,37 @@ class Category
     {
         return $this->pages;
     }
+
+    /**
+     * Set menuorder
+     *
+     * @param integer $menuorder
+     * @return Category
+     */
+    public function setMenuorder($menuorder)
+    {
+        $this->menuorder = $menuorder;
+
+        return $this;
+    }
+
+    /**
+     * Get menuorder
+     *
+     * @return integer 
+     */
+    public function getMenuorder()
+    {
+        return $this->menuorder;
+    }
+
+    /**
+     * Get visible
+     *
+     * @return boolean 
+     */
+    public function getVisible()
+    {
+        return $this->visible;
+    }
 }

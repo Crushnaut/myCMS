@@ -1,12 +1,12 @@
 # src/Blogger/BlogBundle/Resources/config/routing.yml
 PhilCMSBundle_content_about:
     pattern:  /about
-    defaults: { _controller: PhilCMSBundle:Content:about }
+    defaults: { _controller: PhilCMSBundle:Content:about, slug: about }
     requirements:
         _method:  GET
 
 PhilCMSBundle_content_show:
-    pattern:  /{slug}
-    defaults: { _controller: PhilCMSBundle:Content:show }
+    pattern:  /{slug}/{subslug}
+    defaults: { _controller: PhilCMSBundle:Content:show, subslug: null }
     requirements:
         _method:  GET

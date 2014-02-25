@@ -1,0 +1,8 @@
+{# src/Phil/CMSBundle/Resources/views/Menu/sub.html.twig #}
+{% for page in pages %}
+    {% if page.category.slug == page.slug %}
+        <a href="{{ path('PhilCMSBundle_content_show', { 'slug': page.category.slug }) }}"{% if slug == page.slug %} id="activeTab"{% endif %}>{{ page.title }}</a>
+    {% else %}
+        <a href="{{ path('PhilCMSBundle_content_show', { 'slug': page.category.slug, 'subslug': page.slug }) }}"{% if slug == page.slug %} id="activeTab"{% endif %}>{{ page.title }}</a>
+    {% endif %}
+{% endfor %}
