@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="Phil\CMSBundle\Entity\Repository\CategoryRepository")
- * @ORM\Table(name="category")
+ * @ORM\Table(name="categories")
  * @ORM\HasLifecycleCallbacks
  */
 class Category
@@ -26,7 +26,7 @@ class Category
     protected $name;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, unique=true)
      */
     protected $slug;
 

@@ -5,9 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}philmowatt.com{% endblock %}</title>
         {% block stylesheets %}
-            {% stylesheets 'css/*' %}
-                <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
+            <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
         {% endblock %}
     </head>
     <body>
@@ -37,7 +35,7 @@
             <div id="banner">
                 <div id="usernav">
                     {% block usermenu %}
-                        <a href="#1">Log-in</a>
+                        <a href="{{ path('login') }}">Log-in</a>
                         <a href="#2">Register</a>
                     {% endblock %}
                 </div>

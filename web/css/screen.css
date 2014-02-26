@@ -76,7 +76,7 @@ ul {
 	width: 750px;
 	float: left;
 	background-color: #FFFFFF;
-	background-image: url(http://127.0.0.1/myCMS/web/image/top.jpg);
+	background-image: url(../image/top.jpg);
 	background-repeat: no-repeat;
 	background-position: left bottom;
 }
@@ -135,7 +135,7 @@ ul {
 	border-top-color: #000000;
 	border-bottom-color: #000000;
 	background-color: #FFFFFF;
-	background-image: url(http://127.0.0.1/myCMS/web/image/main.jpg);
+	background-image: url(../image/main.jpg);
 }
 #firstnav {
 	float: left;
@@ -154,20 +154,20 @@ ul {
 	padding: 10px;
 	padding-left: 35px;
 	text-decoration: none;
-	background-image: url(http://127.0.0.1/myCMS/web/image/star-greenbg.jpg);
+	background-image: url(../image/star-greenbg.jpg);
 	background-repeat: no-repeat;
 	background-position: 5px 4px;
 }
 #firstnav a:hover {
 	background-color: #EEFF00;
 	font-weight: bold;
-	background-image: url(http://127.0.0.1/myCMS/web/image/star-yellowbg2.jpg);
+	background-image: url(../image/star-yellowbg2.jpg);
 	background-repeat: no-repeat;
 	background-position: 5px 5px;
 }
 #firstnav  #activeTab {
 	font-weight: bold;
-	background-image: url(http://127.0.0.1/myCMS/web/image/star-greenbg.jpg);
+	background-image: url(../image/star-greenbg.jpg);
 	background-repeat: no-repeat;
 	background-position: 5px 4px;
 	background-color: #CCFF00;

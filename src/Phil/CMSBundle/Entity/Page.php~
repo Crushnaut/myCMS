@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Phil\CMSBundle\Entity\Repository\PageRepository")
- * @ORM\Table(name="page")
+ * @ORM\Table(name="pages")
  * @ORM\HasLifecycleCallbacks
  */
 class Page
@@ -25,7 +25,7 @@ class Page
     protected $title;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, unique=true)
      */
     protected $slug;
 
@@ -229,5 +229,28 @@ class Page
     public function getVisible()
     {
         return $this->visible;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return Page
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 }

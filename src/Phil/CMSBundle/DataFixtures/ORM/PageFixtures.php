@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Phil\CMSBundle\Entity\Page;
-use Phil\CMSBundle\Entity\Category;
 
 class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
 {

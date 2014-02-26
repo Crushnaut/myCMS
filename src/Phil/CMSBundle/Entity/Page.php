@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Phil\CMSBundle\Entity\Repository\PageRepository")
- * @ORM\Table(name="page")
+ * @ORM\Table(name="pages")
  * @ORM\HasLifecycleCallbacks
  */
 class Page
@@ -25,7 +25,7 @@ class Page
     protected $title;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, unique=true)
      */
     protected $slug;
 

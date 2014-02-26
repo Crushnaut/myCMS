@@ -1,0 +1,26 @@
+# app/config/security.yml
+
+security:
+    firewalls:
+        secured_area:
+            pattern:    ^/
+            anonymous:  ~
+            form_login:
+                login_path: login
+                check_path: login_check
+            logout:
+                path:   /logout
+                target: /about
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_USER }
+
+    providers:
+        main:
+            entity:
+                class:  Phil\CMSBundle\Entity\User
+                property:   username
+
+    encoders:
+        Phil\CMSBundle\Entity\User:  plaintext
