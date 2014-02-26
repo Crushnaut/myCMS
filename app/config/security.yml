@@ -19,8 +19,8 @@ security:
     providers:
         main:
             entity:
-                class:  Phil\CMSBundle\Entity\User
+                class:  Phil\UserBundle\Entity\User
                 property:   username
 
     encoders:
-        Phil\CMSBundle\Entity\User:  plaintext
+        Phil\UserBundle\Entity\User:  plaintext

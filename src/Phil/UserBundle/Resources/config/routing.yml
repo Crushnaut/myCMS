@@ -1,0 +1,11 @@
+# src/Phil/UserBundle/Resources/routing.yml
+
+login:
+    path:   /login
+    defaults:   { _controller: PhilUserBundle:Security:login }
+
+login_check:
+    path:   /login_check
+
+logout:
+    path:   /logout

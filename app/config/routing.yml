@@ -1,12 +1,6 @@
-login:
-    path:   /login
-    defaults:   { _controller: PhilCMSBundle:Security:login }
-
-login_check:
-    path:   /login_check
-
-logout:
-    path:   /logout
+phil_user:
+    resource: "@PhilUserBundle/Resources/config/routing.yml"
+    prefix:   /
 
 phil_cms:
     resource: "@PhilCMSBundle/Resources/config/routing.yml"

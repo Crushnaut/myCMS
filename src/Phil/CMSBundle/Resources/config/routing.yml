@@ -1,12 +1,18 @@
-# src/Blogger/BlogBundle/Resources/config/routing.yml
-PhilCMSBundle_content_about:
-    pattern:  /about
-    defaults: { _controller: PhilCMSBundle:Content:about, slug: about }
+# src/Phil/CMSBundle/Resources/config/routing.yml
+PhilCMSBundle_content_default:
+    pattern:    /
+    defaults:   { _controller: PhilCMSBundle:Content:about, slug: about }
     requirements:
-        _method:  GET
+        _method:    GET
+
+PhilCMSBundle_content_about:
+    pattern:    /about
+    defaults:   { _controller: PhilCMSBundle:Content:about, slug: about }
+    requirements:
+        _method:    GET
 
 PhilCMSBundle_content_show:
-    pattern:  /{slug}/{subslug}
-    defaults: { _controller: PhilCMSBundle:Content:show, subslug: null }
+    pattern:    /{slug}/{subslug}
+    defaults:   { _controller: PhilCMSBundle:Content:show, subslug: null }
     requirements:
-        _method:  GET
+        _method:    GET
