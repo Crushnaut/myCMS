@@ -5,11 +5,15 @@ namespace Phil\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Phil\UserBundle\Entity\Repository\UserRepository")
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(fields="email", message="Email address already registered. Select a unique email address.")
+ * @UniqueEntity(fields="username", message="Username already registered. Select a unique username.")
  */
 class User implements AdvancedUserInterface, \Serializable
 {
@@ -22,22 +26,28 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 25)
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 64)
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 60)
+     * @Assert\Email()
      */
     private $email;
 
     /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
-     *
      */
     private $roles;
 
