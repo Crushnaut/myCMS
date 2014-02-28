@@ -3,7 +3,6 @@
 namespace Phil\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-//use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 use Phil\UserBundle\Form\Type\RegistrationType;
@@ -56,5 +55,10 @@ class UserController extends Controller
             'PhilUserBundle:User:register.html.twig',
             array('form' => $form->createView())
         );
+    }
+
+    public function menuAction()
+    {
+        return $this->render('PhilUserBundle:User:menu.html.twig');
     }
 }
