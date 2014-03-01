@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 
+use Phil\UserBundle\Form\Type\LoginType;
+use Phil\UserBundle\Form\Model\Login;
+
 class SecurityController extends Controller
 {
     public function loginAction(Request $request)
@@ -23,13 +26,14 @@ class SecurityController extends Controller
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
+        $lastLogin = new Login();
+        $lastLogin->setUsername($session->get(SecurityContext::LAST_USERNAME));
+
+        $form = $this->createForm(new LoginType(), $lastLogin, array('action' => $this->generateURL('login_check')));
+
         return $this->render(
             'PhilUserBundle:Security:login.html.twig',
-            array(
-                // last username entered by the user
-                'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-                'error'         => $error,
-            )
+            array('error' => $error, 'form' => $form->createView())
         );
     }
 }

@@ -8,6 +8,8 @@ security:
             form_login:
                 login_path: login
                 check_path: login_check
+                username_parameter: login[username]
+                password_parameter: login[password]
             logout:
                 path:   /logout
                 target: /about
