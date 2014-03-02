@@ -96,17 +96,31 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set password
+     * Set encrypted password
      *
      * @param string $password
      * @return User
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 15));
 
         return $this;
     }
+
+    /**
+     * Set plaintext password
+     *
+     * @param string $plaintext
+     * @return User
+     */
+    public function setPlaintextPassword($plaintext)
+    {
+        $this->password = $plaintext;
+
+        return $this;
+    }
+
 
     /**
      * @inheritDoc

@@ -21,8 +21,10 @@ security:
     providers:
         main:
             entity:
-                class:  Phil\UserBundle\Entity\User
+                class:      Phil\UserBundle\Entity\User
                 property:   username
 
     encoders:
-        Phil\UserBundle\Entity\User:  plaintext
+        Phil\UserBundle\Entity\User:
+            algorithm:  bcrypt
+            cost:       15
