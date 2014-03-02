@@ -17,6 +17,10 @@ user_create:
     path:   /register/create
     defaults: { _controller: PhilUserBundle:User:create }
 
+user_update:
+    path:   /user
+    defaults:   { _controller: PhilUserBundle:User:update }
+
 user_changepassword:
     path:   /user/changepassword
-    defaults: { _controller: PhilUserBundle:User:changePassword}
+    defaults:   { _controller: PhilUserBundle:User:changePassword}
