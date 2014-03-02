@@ -10,9 +10,13 @@ logout:
     path:   /logout
 
 user_register:
-    path:     /register
+    path:   /register
     defaults: { _controller: PhilUserBundle:User:register }
 
 user_create:
-    path:     /register/create
+    path:   /register/create
     defaults: { _controller: PhilUserBundle:User:create }
+
+user_changepassword:
+    path:   /user/changepassword
+    defaults: { _controller: PhilUserBundle:User:changePassword}

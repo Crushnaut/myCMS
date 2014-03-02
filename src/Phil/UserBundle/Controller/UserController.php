@@ -11,6 +11,9 @@ use Phil\UserBundle\Form\Model\Registration;
 use Phil\UserBundle\Entity\User;
 use Phil\UserBundle\Entity\Role;
 
+use Phil\UserBundle\Form\Type\ChangePasswordType;
+use Phil\UserBundle\Form\Model\Password;
+
 class UserController extends Controller
 {
     public function registerAction()
@@ -60,5 +63,37 @@ class UserController extends Controller
     public function menuAction()
     {
         return $this->render('PhilUserBundle:User:menu.html.twig');
+    }
+
+    public function changePasswordAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(new ChangePasswordType(), new Password());
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) 
+        {
+            $user = $this->get('security.context')->getToken()->getUser();
+
+            if ((is_null($user)) || (!($this->get('security.context')->isGranted('ROLE_USER'))))
+            {
+                throw new AccessDeniedException();
+            }
+
+            $user->setPassword($form->getData()->getPassword());
+
+            $em->persist($user);
+
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('PhilCMSBundle_content_default'));
+        }
+
+        return $this->render(
+            'PhilUserBundle:User:changePassword.html.twig',
+            array('form' => $form->createView())
+        );
     }
 }
