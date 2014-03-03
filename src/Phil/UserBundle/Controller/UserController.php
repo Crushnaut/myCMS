@@ -18,20 +18,7 @@ use Phil\UserBundle\Form\Type\UpdateType;
 
 class UserController extends Controller
 {
-    public function registerAction()
-    {
-        $registration = new Registration();
-        $form = $this->createForm(new RegistrationType(), $registration, array(
-            'action' => $this->generateUrl('user_create'),
-        ));
-
-        return $this->render(
-            'PhilUserBundle:User:register.html.twig',
-            array('form' => $form->createView())
-        );
-    }
-
-    public function createAction(Request $request)
+    public function registerAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
