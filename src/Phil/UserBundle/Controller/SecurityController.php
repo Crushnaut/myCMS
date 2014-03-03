@@ -29,6 +29,14 @@ class SecurityController extends Controller
         $lastLogin = new Login();
         $lastLogin->setUsername($session->get(SecurityContext::LAST_USERNAME));
 
+        // this triggers if the user is being asked to re-authenticate
+        if (is_null($lastLogin->getUsername()) && $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        {
+            $lastLogin->setUsername($this->get('security.context')->getToken()->getUser()->getUsername());
+            $lastLogin->setRememberMe(true);
+            $this->get('session')->getFlashBag()->add('notice', 'Before continuing with that action you must re-enter your password.');
+        }
+
         $form = $this->createForm(new LoginType(), $lastLogin, array('action' => $this->generateURL('login_check')));
 
         return $this->render(

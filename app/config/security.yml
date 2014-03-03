@@ -13,7 +13,7 @@ security:
                 csrf_parameter: login[_token]
             logout:
                 path:   /logout
-                target: /about
+                target: /
             remember_me:
                 key:    "Ov757K1#V~I}z-CR43c7~mx55B&8Qq"
                 lifetime:   2592000 # a month in seconds

@@ -5,16 +5,15 @@ namespace Phil\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use Phil\UserBundle\Form\Type\RegistrationType;
-use Phil\UserBundle\Form\Model\Registration;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
+use Phil\UserBundle\Form\Type\RegistrationType;
+use Phil\UserBundle\Form\Type\ChangePasswordType;
+use Phil\UserBundle\Form\Type\UpdateType;
+use Phil\UserBundle\Form\Model\Registration;
+use Phil\UserBundle\Form\Model\Password;
 use Phil\UserBundle\Entity\User;
 use Phil\UserBundle\Entity\Role;
-
-use Phil\UserBundle\Form\Type\ChangePasswordType;
-use Phil\UserBundle\Form\Model\Password;
-
-use Phil\UserBundle\Form\Type\UpdateType;
 
 class UserController extends Controller
 {
@@ -55,6 +54,9 @@ class UserController extends Controller
         return $this->render('PhilUserBundle:User:menu.html.twig');
     }
 
+    /**
+     * @Secure(roles="IS_AUTHENTICATED_FULLY, ROLE_USER")
+     */
     public function changePasswordAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -75,7 +77,6 @@ class UserController extends Controller
             $user->setPassword($form->getData()->getPassword());
 
             $em->persist($user);
-
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('notice', 'Your password was successfully changed.');
@@ -89,6 +90,9 @@ class UserController extends Controller
         );
     }
 
+    /**
+     * @Secure(roles="ROLE_USER")
+     */
     public function updateAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
