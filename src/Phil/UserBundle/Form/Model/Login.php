@@ -18,6 +18,8 @@ class login
      */
     private $password;
 
+    private $rememberMe;
+
     public function getUsername()
     {
         return $this->username;
@@ -36,5 +38,15 @@ class login
     public function setPassword($password)
     {
         $this->password = $password;
+    }
+
+    public function getRememberMe()
+    {
+        return $this->rememberMe;
+    }
+
+    public function setRememberMe($rememberMe)
+    {
+        $this->rememberMe = (Boolean) $rememberMe;
     }
 }

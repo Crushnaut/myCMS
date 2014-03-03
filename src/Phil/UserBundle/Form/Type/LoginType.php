@@ -11,6 +11,7 @@ class LoginType extends AbstractType
     {
         $builder->add('username', 'text');
         $builder->add('password', 'password');
+        $builder->add('rememberMe', 'checkbox', array('required' => false));
         $builder->add('Login', 'submit');
     }
 

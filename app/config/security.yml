@@ -14,6 +14,10 @@ security:
             logout:
                 path:   /logout
                 target: /about
+            remember_me:
+                key:    "Ov757K1#V~I}z-CR43c7~mx55B&8Qq"
+                lifetime:   2592000 # a month in seconds
+                remember_me_parameter:  login[rememberMe]
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
