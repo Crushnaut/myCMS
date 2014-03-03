@@ -10,6 +10,7 @@ security:
                 check_path: login_check
                 username_parameter: login[username]
                 password_parameter: login[password]
+                csrf_parameter: login[_token]
             logout:
                 path:   /logout
                 target: /about
