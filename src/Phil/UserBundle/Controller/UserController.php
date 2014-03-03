@@ -50,8 +50,9 @@ class UserController extends Controller
             $user->addRole($role);
 
             $em->persist($user);
-
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add('notice', 'You have successfully registered. You may now log-in.');
 
             return $this->redirect($this->generateUrl('login'));
         }
@@ -90,7 +91,9 @@ class UserController extends Controller
 
             $em->flush();
 
-            return $this->redirect($this->generateUrl('PhilCMSBundle_content_default'));
+            $this->get('session')->getFlashBag()->add('notice', 'Your password was successfully changed.');
+
+            return $this->redirect($this->generateUrl('user_update'));
         }
 
         return $this->render(
@@ -123,7 +126,9 @@ class UserController extends Controller
 
             $em->flush();
 
-            return $this->redirect($this->generateUrl('PhilCMSBundle_content_default'));
+            $this->get('session')->getFlashBag()->add('notice', 'Your profile was successfully updated.');
+
+            return $this->redirect($this->generateUrl('user_update'));
         }
 
         return $this->render(

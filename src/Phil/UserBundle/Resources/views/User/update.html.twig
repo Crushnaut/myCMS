@@ -5,10 +5,11 @@
 
 {% block content %}
     <h2>Update Profile</h2>
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
     <a href="{{ path('user_changepassword') }}">Change Password</a>
     {{ form(form) }}
-{% endblock %}
-
-{% block footer %}
-    <p>Website design, layout, and maintenence preformed by Phil Mowatt.</p>
 {% endblock %}

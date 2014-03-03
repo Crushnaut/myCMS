@@ -23,4 +23,4 @@ user_update:
 
 user_changepassword:
     path:   /user/changepassword
-    defaults:   { _controller: PhilUserBundle:User:changePassword}
+    defaults:   { _controller: PhilUserBundle:User:changePassword }
