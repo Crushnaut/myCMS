@@ -1,6 +1,16 @@
 {# src/Phil/UserBundle/Resources/views/User/register.html.twig #}
 {% extends 'PhilUserBundle::layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ form_stylesheet(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
+{% endblock %}
+
 {% block title %}philmowatt.com - register{% endblock %}
 
 {% block content %}

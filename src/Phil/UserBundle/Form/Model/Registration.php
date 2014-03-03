@@ -12,13 +12,15 @@ class Registration
      * @Assert\Type(type="Phil\UserBundle\Entity\User")
      * @Assert\Valid()
      */
-    protected $user;
+    private $user;
 
     /**
      * @Assert\NotBlank()
      * @Assert\True()
      */
-    protected $termsAccepted;
+    private $termsAccepted;
+
+    private $captcha;
 
     public function setUser(User $user)
     {
@@ -30,13 +32,23 @@ class Registration
         return $this->user;
     }
 
+    public function setTermsAccepted($termsAccepted)
+    {
+        $this->termsAccepted = (Boolean) $termsAccepted;
+    }
+
     public function getTermsAccepted()
     {
         return $this->termsAccepted;
     }
 
-    public function setTermsAccepted($termsAccepted)
+    public function setCaptcha($captcha)
     {
-        $this->termsAccepted = (Boolean) $termsAccepted;
+        $this->captcha = $captcha;
+    }
+
+    public function getCaptcha()
+    {
+        return $this->captcha;
     }
 }

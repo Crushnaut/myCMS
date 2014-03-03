@@ -6,3 +6,6 @@ phil_cms:
     resource: "@PhilCMSBundle/Resources/config/routing.yml"
     prefix:   /
 
+genemu_base64:
+    resource: "@GenemuFormBundle/Resources/config/routing/base64.xml"
+    

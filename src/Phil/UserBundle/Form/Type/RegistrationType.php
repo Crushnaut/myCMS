@@ -10,6 +10,7 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('user', new UserType());
+        $builder->add('captcha', 'genemu_recaptcha');
         $builder->add(
             'terms',
             'checkbox',

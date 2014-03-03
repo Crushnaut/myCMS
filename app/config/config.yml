@@ -67,3 +67,11 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+genemu_form:
+    recaptcha:
+        public_key:     "6Lc1a-8SAAAAACoaEoAujVc44L7cZnHu79tQRfER"
+        private_key:    "6Lc1a-8SAAAAAHQzqvZGeJvJBDbAOveEne674HPA"
+        validation:
+            host:   "www.google.com"
+            path:   "/recaptcha/api/verify"
