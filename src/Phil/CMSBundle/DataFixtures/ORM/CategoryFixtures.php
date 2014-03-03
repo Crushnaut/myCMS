@@ -57,17 +57,17 @@ class BlogFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->flush();
 
-        $this->addReference('cat-1', $category1);
-        $this->addReference('cat-2', $category2);
-        $this->addReference('cat-3', $category3);
-        $this->addReference('cat-4', $category4);
-        $this->addReference('cat-5', $category5);
-        $this->addReference('cat-6', $category6);
-        $this->addReference('cat-7', $category7);
+        $this->addReference('about', $category1);
+        $this->addReference('resume', $category2);
+        $this->addReference('blog', $category3);
+        $this->addReference('contact', $category4);
+        $this->addReference('images', $category5);
+        $this->addReference('projects', $category6);
+        $this->addReference('invis', $category7);
     }
 
     public function getOrder()
     {
-        return 1;
+        return 3;
     }
 }

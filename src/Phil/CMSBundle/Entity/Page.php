@@ -5,6 +5,8 @@ namespace Phil\CMSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Phil\UserBundle\Entity\User;
+
 /**
  * @ORM\Entity(repositoryClass="Phil\CMSBundle\Entity\Repository\PageRepository")
  * @ORM\Table(name="pages")
@@ -17,43 +19,49 @@ class Page
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    protected $title;
+    private $title;
 
     /**
      * @ORM\Column(type="string", length=20, unique=true)
      */
-    protected $slug;
+    private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="pages")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    protected $category;
+    private $category;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    protected $created;
+    private $created;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    protected $editted;
+    private $editted;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $visible;
+    private $visible;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\Phil\UserBundle\Entity\User", inversedBy="pages")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     */
+    private $owner;
 
     /**
      * @ORM\Column(type="text")
      */
-    protected $content;
+    private $content;
 
     public function __construct()
     {
@@ -252,5 +260,28 @@ class Page
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \Phil\UserBundle\Entity\User $owner
+     * @return Page
+     */
+    public function setOwner(User $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \Phil\UserBundle\Entity\User 
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
 }

@@ -18,32 +18,32 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    protected $name;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=20, unique=true)
      */
-    protected $slug;
+    private $slug;
 
     /**
      * @ORM\Column(type="integer")
      */
-    protected $menuorder;
+    private $menuorder;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $visible;
+    private $visible;
 
     /**
      * @ORM\OneToMany(targetEntity="Page", mappedBy="category")
      */
-    protected $pages;
+    private $pages;
 
     /**
      * Constructor

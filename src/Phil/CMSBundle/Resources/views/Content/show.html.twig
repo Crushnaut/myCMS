@@ -8,6 +8,6 @@
     <p>{{page.content}}</p>
 {% endblock %}
 {% block footer %}
-    <p>This page was created on {{page.created.format('Y-m-d H:i:s')}} and last updated on {{page.editted.format('Y-m-d H:i:s')}}.</p>
+    <p>This page was created on {{page.created.format('Y-m-d H:i:s')}} by {{page.owner.username}} and last updated on {{page.editted.format('Y-m-d H:i:s')}}.</p>
     <p>Website design, layout, and maintenence preformed by Phil Mowatt.</p>
 {% endblock %}

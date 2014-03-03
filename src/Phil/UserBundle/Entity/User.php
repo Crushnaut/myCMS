@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+use Phil\CMSBundle\Entity\Page;
+
 /**
  * @ORM\Entity(repositoryClass="Phil\UserBundle\Entity\Repository\UserRepository")
  * @ORM\Table(name="users")
@@ -56,12 +58,15 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\Phil\CMSBundle\Entity\Page", mappedBy="owner")
+     */
+    protected $pages;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
         $this->isActive = true;
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid(null, true));
     }
 
     /**
@@ -270,5 +275,38 @@ class User implements AdvancedUserInterface, \Serializable
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized);
+    }
+
+    /**
+     * Add pages
+     *
+     * @param \Phil\CMSBundle\Entity\Page $pages
+     * @return User
+     */
+    public function addPage(Page $pages)
+    {
+        $this->pages[] = $pages;
+
+        return $this;
+    }
+
+    /**
+     * Remove pages
+     *
+     * @param \Phil\CMSBundle\Entity\Page $pages
+     */
+    public function removePage(Page $pages)
+    {
+        $this->pages->removeElement($pages);
+    }
+
+    /**
+     * Get pages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPages()
+    {
+        return $this->pages;
     }
 }
