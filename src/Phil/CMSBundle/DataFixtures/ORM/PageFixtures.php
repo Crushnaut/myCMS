@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Phil\CMSBundle\Entity\Page;
 
-class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
+class PageFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -17,6 +17,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('about');
         $page->setCategory($manager->merge($this->getReference('about')));
         $page->setOwner($manager->merge($this->getReference('crushnaut')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the about page content.");
         $manager->persist($page);
 
@@ -25,6 +27,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('aboutauthor');
         $page->setCategory($manager->merge($this->getReference('about')));
         $page->setOwner($manager->merge($this->getReference('pmowatt')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));        
         $page->setContent("Place holder for the about the author page content.");
         $manager->persist($page);
 
@@ -33,6 +37,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('resume');
         $page->setCategory($manager->merge($this->getReference('resume')));
         $page->setOwner($manager->merge($this->getReference('pmowatt')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the resume page content.");
         $manager->persist($page);
 
@@ -41,6 +47,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('blog');
         $page->setCategory($manager->merge($this->getReference('blog')));
         $page->setOwner($manager->merge($this->getReference('crushnaut')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the development blog content.");
         $manager->persist($page);
 
@@ -49,6 +57,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('personalblog');
         $page->setCategory($manager->merge($this->getReference('blog')));
         $page->setOwner($manager->merge($this->getReference('pmowatt')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the personal blog content.");
         $manager->persist($page);
 
@@ -57,6 +67,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('contact');
         $page->setCategory($manager->merge($this->getReference('contact')));
         $page->setOwner($manager->merge($this->getReference('crushnaut')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the contact page content.");
         $manager->persist($page);
 
@@ -65,6 +77,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('images');
         $page->setCategory($manager->merge($this->getReference('images')));
         $page->setOwner($manager->merge($this->getReference('crushnaut')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the images page content.");
         $manager->persist($page);
 
@@ -73,6 +87,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('screens');
         $page->setCategory($manager->merge($this->getReference('images')));
         $page->setOwner($manager->merge($this->getReference('crushnaut')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the screenshots page content.");
         $manager->persist($page);
 
@@ -81,6 +97,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('projects');
         $page->setCategory($manager->merge($this->getReference('projects')));
         $page->setOwner($manager->merge($this->getReference('crushnaut')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the projects page content.");
         $manager->persist($page);
 
@@ -89,6 +107,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('websites');
         $page->setCategory($manager->merge($this->getReference('projects')));
         $page->setOwner($manager->merge($this->getReference('pmowatt')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the websites page content.");
         $manager->persist($page);
 
@@ -97,6 +117,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('rpgs');
         $page->setCategory($manager->merge($this->getReference('projects')));
         $page->setOwner($manager->merge($this->getReference('pmowatt')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the RPG page content.");
         $manager->persist($page);
 
@@ -105,6 +127,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('writing');
         $page->setCategory($manager->merge($this->getReference('projects')));
         $page->setOwner($manager->merge($this->getReference('pmowatt')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the writing page content.");
         $manager->persist($page);
 
@@ -113,6 +137,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('photoshop');
         $page->setCategory($manager->merge($this->getReference('projects')));
         $page->setOwner($manager->merge($this->getReference('pmowatt')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the photoshop page content.");
         $manager->persist($page);
 
@@ -121,6 +147,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('css');
         $page->setCategory($manager->merge($this->getReference('projects')));
         $page->setOwner($manager->merge($this->getReference('pmowatt')));
+        $page->setViewRole($manager->merge($this->getReference('userrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the CSS page content.");
         $manager->persist($page);
 
@@ -129,6 +157,8 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page->setSlug('php');
         $page->setCategory($manager->merge($this->getReference('projects')));
         $page->setOwner($manager->merge($this->getReference('pmowatt')));
+        $page->setViewRole($manager->merge($this->getReference('adminrole')));
+        $page->setEditRole($manager->merge($this->getReference('adminrole')));
         $page->setContent("Place holder for the PhP page content.");
         $manager->persist($page);
 

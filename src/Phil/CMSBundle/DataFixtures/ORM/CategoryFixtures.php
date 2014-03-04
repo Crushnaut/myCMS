@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Phil\CMSBundle\Entity\Category;
 
-class BlogFixtures extends AbstractFixture implements OrderedFixtureInterface
+class CategoryFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {

@@ -6,6 +6,9 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Phil\CMSBundle\Entity\Page;
+use Phil\UserBundle\Entity\User;
+
 /**
  * @ORM\Entity(repositoryClass="Phil\UserBundle\Entity\Repository\RoleRepository")
  * @ORM\Table(name="roles")
@@ -35,9 +38,21 @@ class Role implements RoleInterface
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\Phil\CMSBundle\Entity\Page", mappedBy="viewRole")
+     */
+    private $viewPages;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\Phil\CMSBundle\Entity\Page", mappedBy="editRole")
+     */
+    private $editPages;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->viewPages = new ArrayCollection();
+        $this->editPages = new ArrayCollection();
     }
 
     /**
@@ -100,7 +115,7 @@ class Role implements RoleInterface
      * @param \Phil\UserBundle\Entity\User $users
      * @return Role
      */
-    public function addUser(\Phil\UserBundle\Entity\User $users)
+    public function addUser(User $users)
     {
         $this->users[] = $users;
 
@@ -112,7 +127,7 @@ class Role implements RoleInterface
      *
      * @param \Phil\UserBundle\Entity\User $users
      */
-    public function removeUser(\Phil\UserBundle\Entity\User $users)
+    public function removeUser(User $users)
     {
         $this->users->removeElement($users);
     }
@@ -125,5 +140,71 @@ class Role implements RoleInterface
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Add viewPages
+     *
+     * @param \Phil\CMSBundle\Entity\Page $viewPages
+     * @return Role
+     */
+    public function addViewPage(Page $viewPages)
+    {
+        $this->viewPages[] = $viewPages;
+
+        return $this;
+    }
+
+    /**
+     * Remove viewPages
+     *
+     * @param \Phil\CMSBundle\Entity\Page $viewPages
+     */
+    public function removeViewPage(Page $viewPages)
+    {
+        $this->viewPages->removeElement($viewPages);
+    }
+
+    /**
+     * Get viewPages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getViewPages()
+    {
+        return $this->viewPages;
+    }
+
+    /**
+     * Add editPages
+     *
+     * @param \Phil\CMSBundle\Entity\Page $editPages
+     * @return Role
+     */
+    public function addEditPage(Page $editPages)
+    {
+        $this->editPages[] = $editPages;
+
+        return $this;
+    }
+
+    /**
+     * Remove editPages
+     *
+     * @param \Phil\CMSBundle\Entity\Page $editPages
+     */
+    public function removeEditPage(Page $editPages)
+    {
+        $this->editPages->removeElement($editPages);
+    }
+
+    /**
+     * Get editPages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEditPages()
+    {
+        return $this->editPages;
     }
 }
