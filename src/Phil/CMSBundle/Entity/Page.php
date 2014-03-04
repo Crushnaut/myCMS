@@ -61,16 +61,10 @@ class Page
     private $owner;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Phil\UserBundle\Entity\Role", inversedBy="viewPages")
-     * @ORM\JoinColumn(name="viewRole_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="\Phil\UserBundle\Entity\Role", inversedBy="pages")
+     * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      */
-    private $viewRole;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="\Phil\UserBundle\Entity\Role", inversedBy="editPages")
-     * @ORM\JoinColumn(name="editRole_id", referencedColumnName="id")
-     */
-    private $editRole;
+    private $role;
 
     /**
      * @ORM\Column(type="text")
@@ -300,48 +294,25 @@ class Page
     }
 
     /**
-     * Set viewRole
+     * Set role
      *
-     * @param \Phil\UserBundle\Entity\Role $viewRole
+     * @param \Phil\UserBundle\Entity\Role $role
      * @return Page
      */
-    public function setViewRole(Role $viewRole = null)
+    public function setRole(Role $role = null)
     {
-        $this->viewRole = $viewRole;
+        $this->role = $role;
 
         return $this;
     }
 
     /**
-     * Get viewRole
+     * Get role
      *
      * @return \Phil\UserBundle\Entity\Role 
      */
-    public function getViewRole()
+    public function getRole()
     {
-        return $this->viewRole;
-    }
-
-    /**
-     * Set editRole
-     *
-     * @param \Phil\UserBundle\Entity\Role $editRole
-     * @return Page
-     */
-    public function setEditRole(Role $editRole = null)
-    {
-        $this->editRole = $editRole;
-
-        return $this;
-    }
-
-    /**
-     * Get editRole
-     *
-     * @return \Phil\UserBundle\Entity\Role 
-     */
-    public function getEditRole()
-    {
-        return $this->editRole;
+        return $this->role;
     }
 }

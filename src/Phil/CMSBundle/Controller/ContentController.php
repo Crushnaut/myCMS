@@ -4,6 +4,7 @@
 namespace Phil\CMSBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ContentController extends Controller
 {
@@ -26,6 +27,11 @@ class ContentController extends Controller
             $page = $em->getRepository('PhilCMSBundle:Page')
                        ->findOneBySlug($subslug);
         }
+
+        //if (false === $this->get('security.context')->isGranted($page->getViewRole()->getRole()))
+       // {
+        //    throw new AccessDeniedException();
+        //}
 
         return $this->render('PhilCMSBundle:Content:show.html.twig', array('page' => $page));
     }

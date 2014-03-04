@@ -23,10 +23,22 @@ class RoleFixtures extends AbstractFixture implements OrderedFixtureInterface
         $role2->setRole('ROLE_ADMIN');
         $manager->persist($role2);
 
+        $role3 = new Role();
+        $role3->setName('Test Role');
+        $role3->setRole('ROLE_TEST');
+        $manager->persist($role3);
+
+        $role4 = new Role();
+        $role4->setName('Another Test Role');
+        $role4->setRole('ROLE_TESTER');
+        $manager->persist($role4);
+
         $manager->flush();
 
         $this->addReference('userrole', $role1);
         $this->addReference('adminrole', $role2);
+        $this->addReference('testrole', $role3);
+        $this->addReference('testerrole', $role4);
     }
 
     public function getOrder()

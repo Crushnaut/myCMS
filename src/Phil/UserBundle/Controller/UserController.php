@@ -69,11 +69,6 @@ class UserController extends Controller
         {
             $user = $this->get('security.context')->getToken()->getUser();
 
-            if ((is_null($user)) || (!($this->get('security.context')->isGranted('ROLE_USER'))))
-            {
-                throw new AccessDeniedException();
-            }
-
             $user->setPassword($form->getData()->getPassword());
 
             $em->persist($user);
@@ -105,11 +100,6 @@ class UserController extends Controller
 
         if ($form->isValid()) 
         {
-            if ((is_null($currentUser)) || (!($this->get('security.context')->isGranted('ROLE_USER'))))
-            {
-                throw new AccessDeniedException();
-            }
-
             $currentUser->setEmail($form->getData()->getEmail());
             $currentUser->setUsername($form->getData()->getUsername());
 

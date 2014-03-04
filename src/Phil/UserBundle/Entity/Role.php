@@ -39,20 +39,14 @@ class Role implements RoleInterface
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Phil\CMSBundle\Entity\Page", mappedBy="viewRole")
+     * @ORM\OneToMany(targetEntity="\Phil\CMSBundle\Entity\Page", mappedBy="role")
      */
-    private $viewPages;
-
-    /**
-     * @ORM\OneToMany(targetEntity="\Phil\CMSBundle\Entity\Page", mappedBy="editRole")
-     */
-    private $editPages;
+    private $pages;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->viewPages = new ArrayCollection();
-        $this->editPages = new ArrayCollection();
+        $this->pages = new ArrayCollection();
     }
 
     /**
@@ -143,68 +137,35 @@ class Role implements RoleInterface
     }
 
     /**
-     * Add viewPages
+     * Add pages
      *
-     * @param \Phil\CMSBundle\Entity\Page $viewPages
+     * @param \Phil\CMSBundle\Entity\Page $pages
      * @return Role
      */
-    public function addViewPage(Page $viewPages)
+    public function addPage(\Phil\CMSBundle\Entity\Page $pages)
     {
-        $this->viewPages[] = $viewPages;
+        $this->pages[] = $pages;
 
         return $this;
     }
 
     /**
-     * Remove viewPages
+     * Remove pages
      *
-     * @param \Phil\CMSBundle\Entity\Page $viewPages
+     * @param \Phil\CMSBundle\Entity\Page $pages
      */
-    public function removeViewPage(Page $viewPages)
+    public function removePage(\Phil\CMSBundle\Entity\Page $pages)
     {
-        $this->viewPages->removeElement($viewPages);
+        $this->pages->removeElement($pages);
     }
 
     /**
-     * Get viewPages
+     * Get pages
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getViewPages()
+    public function getPages()
     {
-        return $this->viewPages;
-    }
-
-    /**
-     * Add editPages
-     *
-     * @param \Phil\CMSBundle\Entity\Page $editPages
-     * @return Role
-     */
-    public function addEditPage(Page $editPages)
-    {
-        $this->editPages[] = $editPages;
-
-        return $this;
-    }
-
-    /**
-     * Remove editPages
-     *
-     * @param \Phil\CMSBundle\Entity\Page $editPages
-     */
-    public function removeEditPage(Page $editPages)
-    {
-        $this->editPages->removeElement($editPages);
-    }
-
-    /**
-     * Get editPages
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEditPages()
-    {
-        return $this->editPages;
+        return $this->pages;
     }
 }
