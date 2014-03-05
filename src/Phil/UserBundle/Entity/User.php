@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Phil\CMSBundle\Entity\Page;
+use Phil\UserBundle\Entity\Role;
 
 /**
  * @ORM\Entity(repositoryClass="Phil\UserBundle\Entity\Repository\UserRepository")
@@ -27,36 +28,80 @@ class User implements AdvancedUserInterface, \Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
+     * @ORM\Column(type="string", length=32, unique=true)
      * @Assert\NotBlank()
-     * @Assert\Length(max = 25)
+     * @Assert\Length(max = 32)
+     * @Assert\Length(min = 3)
      */
     private $username;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 32)
+     * @Assert\Length(min = 3)
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 32)
+     * @Assert\Length(min = 3)
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="date")
+     * @Assert\Date()
+     */
+    private $birthday;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank()
      * @Assert\Length(max = 64)
+     * @Assert\Length(min = 6)
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=60, unique=true)
+     * @ORM\Column(type="string", length=64, unique=true)
      * @Assert\NotBlank()
-     * @Assert\Length(max = 60)
+     * @Assert\Length(max = 64)
      * @Assert\Email()
      */
     private $email;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $expired;
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $locked;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $activationCode;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      */
     private $roles;
-
-    /**
-     * @ORM\Column(name="is_active", type="boolean")
-     */
-    private $isActive;
 
     /**
      * @ORM\OneToMany(targetEntity="Phil\CMSBundle\Entity\Page", mappedBy="owner")
@@ -66,7 +111,11 @@ class User implements AdvancedUserInterface, \Serializable
     public function __construct()
     {
         $this->roles = new ArrayCollection();
-        $this->isActive = true;
+        $this->pages = new ArrayCollection();
+        $this->enabled = false;
+        $this->expired = false;
+        $this->locked = false;
+        $this->created = new \DateTime();
     }
 
     /**
@@ -101,38 +150,72 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set encrypted password
+     * Set firstname
      *
-     * @param string $password
+     * @param string $firstname
      * @return User
      */
-    public function setPassword($password)
+    public function setFirstname($firstname)
     {
-        $this->password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 15));
+        $this->firstname = $firstname;
 
         return $this;
     }
 
     /**
-     * Set plaintext password
+     * Get firstname
      *
-     * @param string $plaintext
+     * @return string 
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
      * @return User
      */
-    public function setPlaintextPassword($plaintext)
+    public function setLastname($lastname)
     {
-        $this->password = $plaintext;
+        $this->lastname = $lastname;
 
         return $this;
     }
 
+    /**
+     * Get lastname
+     *
+     * @return string 
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
 
     /**
-     * @inheritDoc
+     * Set birthday
+     *
+     * @param \DateTime $birthday
+     * @return User
      */
-    public function getPassword()
+    public function setBirthday($birthday)
     {
-        return $this->password;
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * Get birthday
+     *
+     * @return \DateTime 
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
     }
 
     /**
@@ -159,46 +242,167 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set isActive
+     * Set encrypted password
      *
-     * @param boolean $isActive
+     * @param string $password
      * @return User
      */
-    public function setIsActive($isActive)
+    public function setPassword($password)
     {
-        $this->isActive = $isActive;
+        $this->password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 15));
 
         return $this;
     }
 
     /**
-     * Get isActive
+     * @inheritDoc
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     * @return User
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
      *
      * @return boolean 
      */
-    public function getIsActive()
+    public function getEnabled()
     {
-        return $this->isActive;
+        return $this->enabled;
     }
 
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
-
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
-
+    /**
+     * @inheritDoc
+     */
     public function isEnabled()
     {
-        return $this->isActive;
+        return $this->enabled;
+    }
+
+    /**
+     * Set expired
+     *
+     * @param boolean $expired
+     * @return User
+     */
+    public function setExpired($expired)
+    {
+        $this->expired = $expired;
+
+        return $this;
+    }
+
+    /**
+     * Get expired
+     *
+     * @return boolean 
+     */
+    public function getExpired()
+    {
+        return $this->expired;
+    }
+
+    /**
+     * Is expired
+     *
+     * @return boolean 
+     */
+    public function isExpired()
+    {
+        return $this->expired;
+    }
+
+    /**
+     * Set locked
+     *
+     * @param boolean $locked
+     * @return User
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * Get locked
+     *
+     * @return boolean 
+     */
+    public function getLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Is locked
+     *
+     * @return boolean 
+     */
+    public function isLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return User
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set activationCode
+     *
+     * @param string $activationCode
+     * @return User
+     */
+    public function setActivationCode($activationCode)
+    {
+        $this->activationCode = $activationCode;
+
+        return $this;
+    }
+
+    /**
+     * Get activationCode
+     *
+     * @return string 
+     */
+    public function getActivationCode()
+    {
+        return $this->activationCode;
     }
 
     /**
@@ -207,7 +411,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @param \Phil\UserBundle\Entity\Role $roles
      * @return User
      */
-    public function addRole(\Phil\UserBundle\Entity\Role $roles)
+    public function addRole(Role $roles)
     {
         $this->roles[] = $roles;
 
@@ -219,7 +423,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @param \Phil\UserBundle\Entity\Role $roles
      */
-    public function removeRole(\Phil\UserBundle\Entity\Role $roles)
+    public function removeRole(Role $roles)
     {
         $this->roles->removeElement($roles);
     }
@@ -230,51 +434,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function getRoles()
     {
         return $this->roles->toArray();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSalt()
-    {
-        // you *may* need a real salt depending on your encoder
-        // see section on salt below
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function eraseCredentials()
-    {
-    }
-
-    /**
-     * @see \Serializable::serialize()
-     */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
-    }
-
-    /**
-     * @see \Serializable::unserialize()
-     */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt
-        ) = unserialize($serialized);
     }
 
     /**
@@ -308,5 +467,84 @@ class User implements AdvancedUserInterface, \Serializable
     public function getPages()
     {
         return $this->pages;
+    }
+
+/**
+ * Lifecycle Callbacks
+ */
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setActivationCodeValue()
+    {
+        $this->activationCode = password_hash($this->username, PASSWORD_BCRYPT, array('cost' => 5));
+    }
+
+/**
+ *  Methods required for AdvancedUserInterface
+ */
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+        ) = unserialize($serialized);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isAccountNonExpired()
+    {
+        return (false === $this->isExpired());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isAccountNonLocked()
+    {
+        return (false === $this->isLocked());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isCredentialsNonExpired()
+    {
+        return true;
     }
 }

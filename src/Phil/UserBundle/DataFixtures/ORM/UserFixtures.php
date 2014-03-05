@@ -15,22 +15,34 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
     {
         $user1 = new User();
         $user1->setUsername('pmowatt');
+        $user1->setFirstname('Phil');
+        $user1->setLastname('Mowatt');
+        $user1->setBirthday(\DateTime::createFromFormat('m-d-Y', '04-14-1985'));
         $user1->setpassword('qwerty');
         $user1->setEmail('pmowatt@gmail.com');
+        $user1->setEnabled(true);
         $user1->addRole($manager->merge($this->getReference('userrole')));
         $manager->persist($user1);
 
         $user2 = new User();
         $user2->setUsername('root');
+        $user2->setFirstname('Root');
+        $user2->setLastname('Admin');
+        $user2->setBirthday(\DateTime::createFromFormat('m-d-Y', '04-10-1975'));
         $user2->setpassword('asdfgh');
         $user2->setEmail('omegared@gmail.com');
+        $user2->setEnabled(true);
         $user2->addRole($manager->merge($this->getReference('adminrole')));
         $manager->persist($user2);
 
         $user3 = new User();
         $user3->setUsername('crushnaut');
+        $user3->setFirstname('Crush');
+        $user3->setLastname('Naut');
+        $user3->setBirthday(\DateTime::createFromFormat('m-d-Y', '04-20-1995'));
         $user3->setpassword('qwerty');
         $user3->setEmail('crushnaut@gmail.com');
+        $user3->setEnabled(true);
         $user3->addRole($manager->merge($this->getReference('userrole')));
         $user3->addRole($manager->merge($this->getReference('adminrole')));
         $manager->persist($user3);

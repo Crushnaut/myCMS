@@ -11,6 +11,9 @@ class UpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('username', 'text');
+        $builder->add('firstname', 'text');
+        $builder->add('lastname', 'text');
+        $builder->add('birthday', 'birthday');
         $builder->add('email', 'email');
         $builder->add('Submit', 'submit');
     }

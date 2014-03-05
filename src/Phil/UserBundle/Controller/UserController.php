@@ -61,26 +61,17 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(new ChangePasswordType(), new Password());
+        $currentUser = $this->get('security.context')->getToken()->getUser();
 
+        $form = $this->createForm(new ChangePasswordType(), $currentUser);
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {
-            $user = $this->get('security.context')->getToken()->getUser();
-
-            if ((is_null($user)) || (!($this->get('security.context')->isGranted('ROLE_USER'))))
-            {
-                throw new AccessDeniedException();
-            }
-
-            $user->setPassword($form->getData()->getPassword());
-
-            $em->persist($user);
+            $em->persist($currentUser);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('notice', 'Your password was successfully changed.');
-
             return $this->redirect($this->generateUrl('user_update'));
         }
 
@@ -100,25 +91,14 @@ class UserController extends Controller
         $currentUser = $this->get('security.context')->getToken()->getUser();
 
         $form = $this->createForm(new UpdateType(), $currentUser);
-
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {
-            if ((is_null($currentUser)) || (!($this->get('security.context')->isGranted('ROLE_USER'))))
-            {
-                throw new AccessDeniedException();
-            }
-
-            $currentUser->setEmail($form->getData()->getEmail());
-            $currentUser->setUsername($form->getData()->getUsername());
-
             $em->persist($currentUser);
-
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('notice', 'Your profile was successfully updated.');
-
             return $this->redirect($this->generateUrl('user_update'));
         }
 
