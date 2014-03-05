@@ -24,7 +24,6 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
         $user2->setUsername('root');
         $user2->setpassword('asdfgh');
         $user2->setEmail('omegared@gmail.com');
-        $user2->addRole($manager->merge($this->getReference('userrole')));
         $user2->addRole($manager->merge($this->getReference('adminrole')));
         $manager->persist($user2);
 

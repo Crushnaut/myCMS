@@ -59,7 +59,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $isActive;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Phil\CMSBundle\Entity\Page", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="Phil\CMSBundle\Entity\Page", mappedBy="owner")
      */
     protected $pages;
 

@@ -4,6 +4,7 @@
 namespace Phil\CMSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Phil\UserBundle\Entity\User;
 use Phil\UserBundle\Entity\Role;
@@ -55,22 +56,10 @@ class Page
     private $visible;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Phil\UserBundle\Entity\User", inversedBy="pages")
+     * @ORM\ManyToOne(targetEntity="Phil\UserBundle\Entity\User", inversedBy="pages")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      */
     private $owner;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="\Phil\UserBundle\Entity\Role", inversedBy="viewPages")
-     * @ORM\JoinColumn(name="viewRole_id", referencedColumnName="id")
-     */
-    private $viewRole;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="\Phil\UserBundle\Entity\Role", inversedBy="editPages")
-     * @ORM\JoinColumn(name="editRole_id", referencedColumnName="id")
-     */
-    private $editRole;
 
     /**
      * @ORM\Column(type="text")
@@ -82,6 +71,8 @@ class Page
         $this->setCreated(new \DateTime());
         $this->setEditted(new \DateTime());
         $this->setVisible();
+        $this->viewRoles = new ArrayCollection();
+        $this->editRoles = new ArrayCollection();
     }
 
     /**
@@ -297,51 +288,5 @@ class Page
     public function getOwner()
     {
         return $this->owner;
-    }
-
-    /**
-     * Set viewRole
-     *
-     * @param \Phil\UserBundle\Entity\Role $viewRole
-     * @return Page
-     */
-    public function setViewRole(Role $viewRole = null)
-    {
-        $this->viewRole = $viewRole;
-
-        return $this;
-    }
-
-    /**
-     * Get viewRole
-     *
-     * @return \Phil\UserBundle\Entity\Role 
-     */
-    public function getViewRole()
-    {
-        return $this->viewRole;
-    }
-
-    /**
-     * Set editRole
-     *
-     * @param \Phil\UserBundle\Entity\Role $editRole
-     * @return Page
-     */
-    public function setEditRole(Role $editRole = null)
-    {
-        $this->editRole = $editRole;
-
-        return $this;
-    }
-
-    /**
-     * Get editRole
-     *
-     * @return \Phil\UserBundle\Entity\Role 
-     */
-    public function getEditRole()
-    {
-        return $this->editRole;
     }
 }
