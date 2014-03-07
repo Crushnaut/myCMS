@@ -24,3 +24,7 @@ user_update:
 user_changepassword:
     path:   /user/changepassword
     defaults:   { _controller: PhilUserBundle:User:changePassword }
+
+user_activate:
+    path:   /user/confirm/{userID}/{activationCode}
+    defaults:   { _controller: PhilUserBundle:User:activateUser, activationCode: null }

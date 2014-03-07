@@ -57,6 +57,37 @@ class UserController extends Controller
         );
     }
 
+    public function activateUserAction($userID, $activationCode = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('PhilUserBundle:User')->findOneById($userID);
+
+        if ($user->isEnabled())
+        {
+            $this->get('session')->getFlashBag()->add('notice', "" . $user->getUsername() ." has already been activated. Please login.");
+            return $this->redirect($this->generateUrl('login'));
+        }
+
+        if (false === is_null($activationCode))
+        {
+            if ($activationCode === $user->getActivationCode())
+            {
+                $user->setEnabled(true);
+                $em->persist($user);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('notice', "" . $user->getUsername() ." has been activated. Please login.");
+                return $this->redirect($this->generateUrl('login'));
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('notice', "The activation code does not match " . $user->getUsername() ."'s activation code.");
+                return $this->render('PhilUserBundle:User:activate.html.twig');
+            }
+        }
+
+        return $this->render('PhilUserBundle:User:activate.html.twig');
+    }
+
     public function menuAction()
     {
         return $this->render('PhilUserBundle:User:menu.html.twig');
