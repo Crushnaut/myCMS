@@ -38,6 +38,14 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Registration successful! Please confirm e-mail.')
+                ->setFrom('philsymfony@gmail.com')
+                ->setTo($user->getEmail())
+                ->setBody($this->renderView('PhilUserBundle:Email:register.txt.twig', array('user' => $user)));
+
+            $this->get('mailer')->send($message);
+
             $this->get('session')->getFlashBag()->add('notice', 'You have successfully registered. You may now log-in.');
 
             return $this->redirect($this->generateUrl('login'));
