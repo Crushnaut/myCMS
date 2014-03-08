@@ -27,19 +27,13 @@ class UserController extends Controller
     public function registerAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $form = $this->createForm(new RegistrationType(), new Registration());
-
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {
-            $registration = $form->getData();
-            $user = $registration->getUser();
-
-            $role = $em->getRepository('PhilUserBundle:Role')
-                        ->findOneByRole('ROLE_USER');
-
+            $user = $form->getData()->getUser();
+            $role = $em->getRepository('PhilUserBundle:Role')->findOneByRole('ROLE_USER');
             $user->addRole($role);
 
             $em->persist($user);
@@ -52,10 +46,7 @@ class UserController extends Controller
             return $this->redirect($this->generateUrl('user_activate'));
         }
 
-        return $this->render(
-            'PhilUserBundle:User:register.html.twig',
-            array('form' => $form->createView())
-        );
+        return $this->render('PhilUserBundle:User:register.html.twig', array('form' => $form->createView()));
     }
 
     /*
@@ -135,9 +126,7 @@ class UserController extends Controller
                 }
 
                 $this->sendActivationEmail($user);
-                
                 $this->get('session')->getFlashBag()->add('notice', 'You have been sent an e-mail containing a code to activate your account. Enter it below before you can login.');
-
                 return $this->redirect($this->generateUrl('user_activate', array('userID' => $user->getID())));
             } 
             else
@@ -145,7 +134,6 @@ class UserController extends Controller
                 $this->get('session')->getFlashBag()->add('notice', 'Specified e-mail address does not correspond with a user in our database.');
             }
         }
-
         return $this->render('PhilUserBundle:User:resendActivation.html.twig', array('form' => $form->createView()));
     }
     
@@ -159,29 +147,27 @@ class UserController extends Controller
 
     /**
      * The action called when the change password form is viewed or submitted.
+     * Only accessible if the user is fully authenticated.
      */
     public function changePasswordAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $currentUser = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.context')->getToken()->getUser();
 
-        $form = $this->createForm(new ChangePasswordType(), $currentUser);
+        $form = $this->createForm(new ChangePasswordType(), $user);
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {
-            $em->persist($currentUser);
+            $em->persist($user);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('notice', 'Your password was successfully changed.');
             return $this->redirect($this->generateUrl('user_update'));
         }
 
-        return $this->render(
-            'PhilUserBundle:User:changePassword.html.twig',
-            array('form' => $form->createView())
-        );
+        return $this->render('PhilUserBundle:User:changePassword.html.twig', array('form' => $form->createView()));
     }
 
     /**
@@ -193,7 +179,7 @@ class UserController extends Controller
 
         $user = $this->get('security.context')->getToken()->getUser();
 
-        $originalEmail = $user->getEmail();
+        //$originalEmail = $user->getEmail();
 
         $form = $this->createForm(new UpdateType(), $user);
         $form->handleRequest($request);
@@ -214,10 +200,6 @@ class UserController extends Controller
             $this->get('session')->getFlashBag()->add('notice', 'Your profile was successfully updated.');
             return $this->redirect($this->generateUrl('user_update'));
         }
-
-        return $this->render(
-            'PhilUserBundle:User:update.html.twig',
-            array('form' => $form->createView())
-        );
+        return $this->render('PhilUserBundle:User:update.html.twig', array('form' => $form->createView()));
     }
 }
