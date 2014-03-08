@@ -29,7 +29,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=32, unique=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "You must enter a username.")
      * @Assert\Length(max = 32)
      * @Assert\Length(min = 3)
      */
@@ -37,7 +37,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "You must enter a first name")
      * @Assert\Length(max = 32)
      * @Assert\Length(min = 3)
      */
@@ -45,7 +45,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "You must enter a last name")
      * @Assert\Length(max = 32)
      * @Assert\Length(min = 3)
      */
@@ -59,7 +59,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "You must enter a password")
      * @Assert\Length(max = 64)
      * @Assert\Length(min = 6)
      */
@@ -67,7 +67,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "You must enter an email")
      * @Assert\Length(max = 64)
      * @Assert\Email()
      */
@@ -478,7 +478,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setActivationCodeValue()
     {
-        $this->activationCode = password_hash($this->username, PASSWORD_BCRYPT, array('cost' => 5));
+        $this->activationCode = hash("sha256", $this->username, false);
     }
 
 /**

@@ -15,5 +15,6 @@
 
 {% block content %}
     <h2>Register</h2>
+    <p>If you have already registered and have not received your confirmation e-mail <a href="{{ path('user_resendActivation') }}">click here to resend it</a>.</p>
     {{ form(form) }}
 {% endblock %}

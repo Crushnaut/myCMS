@@ -10,4 +10,6 @@
             {{ flashMessage }}
         </div>
     {% endfor %}
+    <p>If you have not received your confirmation e-mail <a href="{{ path('user_resendActivation') }}">click here to resend it</a>.</p>
+    {{ form(form) }}
 {% endblock %}

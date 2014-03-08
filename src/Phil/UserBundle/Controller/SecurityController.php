@@ -30,7 +30,7 @@ class SecurityController extends Controller
         $lastLogin->setUsername($session->get(SecurityContext::LAST_USERNAME));
 
         // this triggers if the user is being asked to re-authenticate
-        if (is_null($lastLogin->getUsername()) && $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        if (is_null($lastLogin->getUsername()) && $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') && !($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')))
         {
             $lastLogin->setUsername($this->get('security.context')->getToken()->getUser()->getUsername());
             $lastLogin->setRememberMe(true);
