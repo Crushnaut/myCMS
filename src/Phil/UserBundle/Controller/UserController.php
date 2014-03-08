@@ -49,7 +49,7 @@ class UserController extends Controller
 
             $this->get('session')->getFlashBag()->add('notice', 'You have successfully registered. You have been sent an e-mail containing a code to activate your account. Enter it below before you can login.');
 
-            return $this->redirect($this->generateUrl('user_activate', array('userID' => $user->getID())));
+            return $this->redirect($this->generateUrl('user_activate'));
         }
 
         return $this->render(
@@ -75,16 +75,8 @@ class UserController extends Controller
     /*
      * Action called when the activate user page is viewed or the form is submitted.
      */
-    public function activateUserAction($userID, $activationCode = null, Request $request)
+    public function activateUserAction($activationCode = null, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('PhilUserBundle:User')->findOneById($userID);
-
-        if ($user->isEnabled())
-        {
-            $this->get('session')->getFlashBag()->add('notice', "" . $user->getUsername() ." has already been activated. Please login.");
-            return $this->redirect($this->generateUrl('login'));
-        }
 
         $form = $this->createForm(new ActivationType(), new Activation());
         $form->handleRequest($request);
@@ -94,19 +86,27 @@ class UserController extends Controller
             $activationCode = $form->getData()->getActivationCode();
         }
 
-        if (false === is_null($activationCode))
+        if ($activationCode !== null)
         {
-            if ($activationCode === $user->getActivationCode())
-            {
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('PhilUserBundle:User')->findOneByActivationCode($activationCode);
+
+            if ($user === null)
+            {   
+                $this->get('session')->getFlashBag()->add('notice', "That is not a valid activation code.");
+            }
+
+            if ($user && (false === $user->isEnabled()))
+            {   
                 $user->setEnabled(true);
+                $user->setActivationCode(null);
+
                 $em->persist($user);
                 $em->flush();
+
                 $this->get('session')->getFlashBag()->add('notice', "" . $user->getUsername() ." has been activated. Please login.");
+
                 return $this->redirect($this->generateUrl('login'));
-            }
-            else
-            {
-                $this->get('session')->getFlashBag()->add('notice', "The activation code does not match " . $user->getUsername() ."'s activation code.");
             }
         }
 
@@ -133,7 +133,7 @@ class UserController extends Controller
                     $this->get('session')->getFlashBag()->add('notice', 'That user has already been activated.');
                     return $this->render('PhilUserBundle:User:resendActivation.html.twig', array('form' => $form->createView()));
                 }
-                
+
                 $this->sendActivationEmail($user);
                 
                 $this->get('session')->getFlashBag()->add('notice', 'You have been sent an e-mail containing a code to activate your account. Enter it below before you can login.');

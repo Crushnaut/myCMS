@@ -94,9 +94,19 @@ class User implements AdvancedUserInterface, \Serializable
     private $created;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $activationCode;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $resetTime;
+
+    /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $resetCode;
 
     /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
@@ -116,6 +126,7 @@ class User implements AdvancedUserInterface, \Serializable
         $this->expired = false;
         $this->locked = false;
         $this->created = new \DateTime();
+        $this->resetTime = new \DateTime();
     }
 
     /**
@@ -469,6 +480,63 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->pages;
     }
 
+    /**
+     * Set resetTime
+     *
+     * @param \DateTime $resetTime
+     * @return User
+     */
+    public function setResetTime($resetTime)
+    {
+        $this->resetTime = $resetTime;
+
+        return $this;
+    }
+
+    /**
+     * Get resetTime
+     *
+     * @return \DateTime 
+     */
+    public function getResetTime()
+    {
+        return $this->resetTime;
+    }
+
+    /**
+     * Set resetCode
+     *
+     * @param string $resetCode
+     * @return User
+     */
+    public function setResetCode($resetCode)
+    {
+        $this->resetCode = $resetCode;
+
+        return $this;
+    }
+
+    /**
+     * Get resetCode
+     *
+     * @return string 
+     */
+    public function getResetCode()
+    {
+        return $this->resetCode;
+    }
+
+/**
+ * Utility Functions
+ */
+    private function generateToken()
+    {
+        $token = (time() + mt_rand(0, time())) * $this->getId();
+        $token = password_hash($token, PASSWORD_BCRYPT, array('cost' => mt_rand(5, 15)));
+        $token = hash("sha256", $token, false);
+        return $token;
+    }
+
 /**
  * Lifecycle Callbacks
  */
@@ -478,7 +546,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setActivationCodeValue()
     {
-        $this->activationCode = hash("sha256", $this->username, false);
+        $this->activationCode = hash("sha256", $this->generateToken(), false);
     }
 
 /**

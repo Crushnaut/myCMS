@@ -1,9 +1,9 @@
 {# src/Phil/UserBundle/Resources/views/Email/register.txt.twig #}
 Hello {{ user.getFirstname }} {{ user.getLastname }},
 
-Thank you for registering at my site. In order to complete your registration you must confirm your e-mail address. Doing this is easy and can be done in one of two ways. Firstly, you can just follow this link: {{ url('user_activate', { 'userID': user.getID, 'activationCode': user.getActivationCode }) }}
+Thank you for registering at my site. In order to complete your registration you must confirm your e-mail address. Doing this is easy and can be done in one of two ways. Firstly, you can just follow this link: {{ url('user_activate', { 'activationCode': user.getActivationCode }) }}
 
-Your other option is to go to {{ url('user_activate', { 'userID': user.getID }) }} and enter your code into the box provided. Your code is: {{ user.getActivationCode }}
+Your other option is to go to {{ url('user_activate') }} and enter your code into the box provided. Your code is: {{ user.getActivationCode }}
 
 Once you have completed these steps you can login at {{ url('login') }} with your username {{ user.getUsername }}.
 
