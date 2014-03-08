@@ -544,9 +544,9 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\PrePersist
      */
-    public function setActivationCodeValue()
+    public function resetActivationCode()
     {
-        $this->activationCode = hash("sha256", $this->generateToken(), false);
+        $this->activationCode = $this->generateToken();
     }
 
 /**

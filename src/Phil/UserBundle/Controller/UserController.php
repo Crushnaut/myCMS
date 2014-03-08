@@ -191,14 +191,24 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $currentUser = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.context')->getToken()->getUser();
 
-        $form = $this->createForm(new UpdateType(), $currentUser);
+        $originalEmail = $user->getEmail();
+
+        $form = $this->createForm(new UpdateType(), $user);
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {
-            $em->persist($currentUser);
+            /*if ($originalEmail !== $user->getEmail())
+            {
+                $user->setEnabled(false);
+                $user->resetActivationCode();
+                $this->get('session')->getFlashBag()->add('notice', 'Since you changed your e-mail you will have to reverify your account. Check your e-mail for this new code.');
+                $this->sendActivationEmail($user);
+            }*/
+
+            $em->persist($user);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('notice', 'Your profile was successfully updated.');

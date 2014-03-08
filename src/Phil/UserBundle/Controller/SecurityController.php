@@ -14,6 +14,11 @@ class SecurityController extends Controller
 {
     public function loginAction(Request $request)
     {
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $this->get('session')->getFlashBag()->add('notice', 'You are already logged in.');
+            return $this->redirect($this->generateUrl('user_update'));
+        }
         $session = $request->getSession();
 
         // get the login error if there is one
