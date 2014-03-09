@@ -76,6 +76,11 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\Column(type="boolean")
      */
+    private $emailVerified;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
     private $enabled;
 
     /**
@@ -99,7 +104,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $activationCode;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $resetTime;
 
@@ -107,6 +112,11 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $resetCode;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $passwordExpired;
 
     /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
@@ -126,7 +136,9 @@ class User implements AdvancedUserInterface, \Serializable
         $this->expired = false;
         $this->locked = false;
         $this->created = new \DateTime();
-        $this->resetTime = new \DateTime();
+        $this->resetTime = null;
+        $this->emailVerified = false;
+        $this->passwordExpired = false;
     }
 
     /**
@@ -526,12 +538,83 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->resetCode;
     }
 
+    public function resetResetCode()
+    {
+        $this->setResetCode($this->generateToken());
+    }
+
+    /**
+     * Set emailVerified
+     *
+     * @param boolean $emailVerified
+     * @return User
+     */
+    public function setEmailVerified($emailVerified)
+    {
+        $this->emailVerified = $emailVerified;
+
+        return $this;
+    }
+
+    /**
+     * Get emailVerified
+     *
+     * @return boolean 
+     */
+    public function getEmailVerified()
+    {
+        return $this->emailVerified;
+    }
+
+    /**
+     * Is emailVerified
+     *
+     * @return boolean 
+     */
+    public function isEmailVerified()
+    {
+        return $this->emailVerified;
+    }
+
+    /**
+     * Set passwordExpired
+     *
+     * @param boolean $passwordExpired
+     * @return User
+     */
+    public function setPasswordExpired($passwordExpired)
+    {
+        $this->passwordExpired = $passwordExpired;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordExpired
+     *
+     * @return boolean 
+     */
+    public function getPasswordExpired()
+    {
+        return $this->passwordExpired;
+    }
+
+    /**
+     * Is passwordExpired
+     *
+     * @return boolean 
+     */
+    public function isPasswordExpired()
+    {
+        return $this->passwordExpired;
+    }
+
 /**
  * Utility Functions
  */
     private function generateToken()
     {
-        $token = (time() + mt_rand(0, time())) * $this->getId();
+        $token = (time() + mt_rand(-1, 1) * mt_rand(0, time()) + mt_rand(-1, 1) * mt_rand(0, time()) + mt_rand(-1, 1) * mt_rand(0, time()) + mt_rand(-1, 1) * mt_rand(0, time())) * $this->getId();
         $token = password_hash($token, PASSWORD_BCRYPT, array('cost' => mt_rand(5, 15)));
         $token = hash("sha256", $token, false);
         return $token;

@@ -23,6 +23,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user/confirm.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/resendActivation, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/forgotPassword.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/changepassword, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/user, roles: ROLE_USER }
 

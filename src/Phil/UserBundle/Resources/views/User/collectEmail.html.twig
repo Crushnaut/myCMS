@@ -1,10 +1,10 @@
 {# src/Phil/UserBundle/Resources/views/User/resendActivation.html.twig #}
 {% extends 'PhilUserBundle::layout.html.twig' %}
 
-{% block title %}philmowatt.com - resend activation code{% endblock %}
+{% block title %}philmowatt.com - {{ title|lower }}{% endblock %}
 
 {% block content %}
-    <h2>Resend Activation Code</h2>
+    <h2>{{ title }}</h2>
     {% for flashMessage in app.session.flashbag.get('notice') %}
         <div class="flash-notice">
             {{ flashMessage }}

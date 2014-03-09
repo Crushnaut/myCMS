@@ -36,3 +36,11 @@ user_activate:
 user_resendActivation:
     path:   /user/resendActivation
     defaults:   { _controller: PhilUserBundle:User:resendActivation }
+
+user_forgotPassword:
+    path:   /user/forgotPassword
+    defaults:   { _controller: PhilUserBundle:User:forgotPassword }
+
+user_forgotPasswordReset:
+    path:   /user/forgotPasswordReset/{resetCode}
+    defaults:   { _controller: PhilUserBundle:User:forgotPasswordReset }
