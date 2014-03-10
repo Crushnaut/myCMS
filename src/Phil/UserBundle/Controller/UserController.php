@@ -184,7 +184,7 @@ class UserController extends Controller
     }
 
     /*
-     * Helper method for sending an e-mail to a user containing their activation code.
+     * Helper method for sending an e-mail to a user containing their password reset code.
      */
     public function sendPasswordResetEmail(User $user)
     {
@@ -197,6 +197,9 @@ class UserController extends Controller
         $this->get('mailer')->send($message);
     }
 
+    /*
+     *  Action called when a user submits a forgot password reset link and code or submits a forgot password reset form
+     */
     public function forgotPasswordResetAction($resetCode, Request $request)
     {
         if ($resetCode !== null)
