@@ -11,11 +11,11 @@ logout:
 
 user_register:
     path:   /register
-    defaults: { _controller: PhilUserBundle:User:register }
+    defaults: { _controller: PhilUserBundle:Register:create }
 
-user_create:
-    path:   /register/create
-    defaults: { _controller: PhilUserBundle:User:create }
+#user_create:
+#    path:   /register/create
+#    defaults: { _controller: PhilUserBundle:Register:create }
 
 user_update:
     path:   /user
@@ -27,20 +27,20 @@ user_changepassword:
 
 user_confirm:
     path:   /user/confirm
-    defaults:   { _controller: PhilUserBundle:User:activateUser, activationCode: null }
+    defaults:   { _controller: PhilUserBundle:Activate:activate, activationCode: null }
 
 user_activate:
     path:   /user/confirm/{activationCode}
-    defaults:   { _controller: PhilUserBundle:User:activateUser, activationCode: null }
+    defaults:   { _controller: PhilUserBundle:Activate:activate, activationCode: null }
 
 user_resendActivation:
     path:   /user/resendActivation
-    defaults:   { _controller: PhilUserBundle:User:resendActivation }
+    defaults:   { _controller: PhilUserBundle:Activate:resend }
 
 user_forgotPassword:
     path:   /user/forgotPassword
-    defaults:   { _controller: PhilUserBundle:User:forgotPassword }
+    defaults:   { _controller: PhilUserBundle:ForgotPassword:email }
 
 user_forgotPasswordReset:
     path:   /user/forgotPasswordReset/{resetCode}
-    defaults:   { _controller: PhilUserBundle:User:forgotPasswordReset }
+    defaults:   { _controller: PhilUserBundle:ForgotPassword:reset }

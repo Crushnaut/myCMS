@@ -6,12 +6,18 @@ namespace Phil\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Phil\UserBundle\Form\Type\EmailType;
+use Phil\UserBundle\Form\Type\ChangePasswordType;
+use Phil\UserBundle\Form\Model\Email;
+
+use Phil\UserBundle\Entity\User;
+
 class ForgotPasswordController extends Controller
 {
     /*
      *  Action called when the forgot password form is viewed or submitted
      */
-    public function forgotPasswordAction(Request $request)
+    public function emailAction(Request $request)
     {
         $form = $this->createForm(new EmailType(), new Email());
         $form->handleRequest($request);
@@ -70,7 +76,7 @@ class ForgotPasswordController extends Controller
     /*
      *  Action called when a user submits a forgot password reset link and code or submits a forgot password reset form
      */
-    public function forgotPasswordResetAction($resetCode, Request $request)
+    public function resetAction($resetCode, Request $request)
     {
         if ($resetCode !== null)
         {

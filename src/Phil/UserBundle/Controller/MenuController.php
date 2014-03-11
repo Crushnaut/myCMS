@@ -11,7 +11,7 @@ class MenuController extends Controller
     /*
      *  Action for generating the user menu.
      */
-    public function menuAction()
+    public function displayAction()
     {
         return $this->render('PhilUserBundle:User:menu.html.twig');
     }    

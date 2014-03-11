@@ -6,12 +6,17 @@ namespace Phil\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Phil\UserBundle\Form\Model\Registration;
+use Phil\UserBundle\Form\Type\RegistrationType;
+
+use Phil\UserBundle\Entity\User;
+
 class RegisterController extends Controller
 {
     /*
      * Action called when the register form is viewed and submitted.
      */
-    public function registerAction(Request $request)
+    public function createAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new RegistrationType(), new Registration());

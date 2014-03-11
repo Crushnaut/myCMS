@@ -6,12 +6,17 @@ namespace Phil\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Phil\UserBundle\Form\Type\ActivationType;
+use Phil\UserBundle\Form\Type\EmailType;
+use Phil\UserBundle\Form\Model\Activation;
+use Phil\UserBundle\Form\Model\Email;
+
 class ActivateController extends Controller
 {
     /*
      * Action called when the activate user page is viewed or the form is submitted.
      */
-    public function activateUserAction($activationCode = null, Request $request)
+    public function activateAction($activationCode = null, Request $request)
     {
 
         $form = $this->createForm(new ActivationType(), new Activation());
@@ -52,7 +57,7 @@ class ActivateController extends Controller
     /*
      *  Action called when the resend activation code form is viewed or submitted.
      */
-    public function resendActivationAction(Request $request)
+    public function resendAction(Request $request)
     {
         $form = $this->createForm(new EmailType(), new Email());
         $form->handleRequest($request);
