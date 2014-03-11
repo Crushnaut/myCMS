@@ -35,7 +35,7 @@ class UserController extends Controller
             return $this->redirect($this->generateUrl('user_update'));
         }
 
-        return $this->render('PhilUserBundle:User:changePassword.html.twig', array('form' => $form->createView()));
+        return $this->render('PhilUserBundle:User:changePasswordForm.html.twig', array('form' => $form->createView()));
     }
 
     /**
@@ -68,6 +68,6 @@ class UserController extends Controller
             $this->get('session')->getFlashBag()->add('notice', 'Your profile was successfully updated.');
             return $this->redirect($this->generateUrl('user_update'));
         }
-        return $this->render('PhilUserBundle:User:update.html.twig', array('form' => $form->createView()));
+        return $this->render('PhilUserBundle:User:controlpanelForm.html.twig', array('form' => $form->createView()));
     }
 }

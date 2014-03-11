@@ -119,7 +119,7 @@ class ForgotPasswordController extends Controller
                     return $this->redirect($this->generateUrl('login'));
                 }
 
-                return $this->render('PhilUserBundle:User:changePassword.html.twig', array('form' => $form->createView()));
+                return $this->render('PhilUserBundle:User:changePasswordForm.html.twig', array('form' => $form->createView()));
             }
         }
         return $this->redirect($this->generateUrl('user_forgotPassword'));

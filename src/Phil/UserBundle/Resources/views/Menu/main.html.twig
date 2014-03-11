@@ -1,0 +1,12 @@
+{# src/Phil/UserBundle/Resources/views/User/menu.html.twig #}
+
+{% if is_granted('ROLE_USER') %}
+    <a href="{{ path('user_update') }}">User CP</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href='#2'>Admin CP</a>
+    {% endif %}
+    <a href="{{ path('logout') }}">Logout</a>
+{% else %}
+    <a href="{{ path('login') }}">Log-in</a>
+    <a href="{{ path('user_register') }}">Register</a>
+{% endif %}

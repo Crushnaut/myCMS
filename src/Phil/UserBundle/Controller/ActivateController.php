@@ -11,6 +11,8 @@ use Phil\UserBundle\Form\Type\EmailType;
 use Phil\UserBundle\Form\Model\Activation;
 use Phil\UserBundle\Form\Model\Email;
 
+use Phil\UserBundle\Entity\User;
+
 class ActivateController extends Controller
 {
     /*
@@ -51,7 +53,7 @@ class ActivateController extends Controller
             }
         }
 
-        return $this->render('PhilUserBundle:User:activate.html.twig', array('form' => $form->createView()));
+        return $this->render('PhilUserBundle:Activate:activateForm.html.twig', array('form' => $form->createView()));
     }
     
     /*
@@ -72,7 +74,8 @@ class ActivateController extends Controller
                 if ($user->isEnabled())
                 {
                     $this->get('session')->getFlashBag()->add('notice', 'That user has already been activated.');
-                    return $this->render('PhilUserBundle:User:resendActivation.html.twig', array('form' => $form->createView()));
+                    $title = "Resend Activation Code";
+                    return $this->render('PhilUserBundle:User:emailForm.html.twig', array('form' => $form->createView(), 'title' => $title));
                 }
 
                 $this->sendActivationEmail($user);
@@ -85,6 +88,20 @@ class ActivateController extends Controller
             }
         }
         $title = "Resend Activation Code";
-        return $this->render('PhilUserBundle:User:collectEmail.html.twig', array('form' => $form->createView(), 'title' => $title));
-    }    
+        return $this->render('PhilUserBundle:User:emailForm.html.twig', array('form' => $form->createView(), 'title' => $title));
+    }
+
+    /*
+     * Helper method for sending an e-mail to a user containing their activation code.
+     */
+    public function sendActivationEmail(User $user)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Registration successful! Please confirm e-mail.')
+            ->setFrom('philsymfony@gmail.com')
+            ->setTo($user->getEmail())
+            ->setBody($this->renderView('PhilUserBundle:Email:activation.txt.twig', array('user' => $user)));
+
+        $this->get('mailer')->send($message);
+    }
 }

@@ -1,0 +1,15 @@
+{# src/Phil/UserBundle/Resources/views/User/activate.html.twig #}
+{% extends 'PhilUserBundle::layout.html.twig' %}
+
+{% block title %}philmowatt.com - activate account{% endblock %}
+
+{% block content %}
+    <h2>Activate Account</h2>
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <p>If you have not received your confirmation e-mail <a href="{{ path('user_resendActivation') }}">click here to resend it</a>.</p>
+    {{ form(form) }}
+{% endblock %}

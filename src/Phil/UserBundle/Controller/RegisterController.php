@@ -38,7 +38,7 @@ class RegisterController extends Controller
             return $this->redirect($this->generateUrl('user_activate'));
         }
 
-        return $this->render('PhilUserBundle:User:register.html.twig', array('form' => $form->createView()));
+        return $this->render('PhilUserBundle:Register:registerForm.html.twig', array('form' => $form->createView()));
     }
 
     /*
@@ -50,7 +50,7 @@ class RegisterController extends Controller
             ->setSubject('Registration successful! Please confirm e-mail.')
             ->setFrom('philsymfony@gmail.com')
             ->setTo($user->getEmail())
-            ->setBody($this->renderView('PhilUserBundle:Email:register.txt.twig', array('user' => $user)));
+            ->setBody($this->renderView('PhilUserBundle:Email:activation.txt.twig', array('user' => $user)));
 
         $this->get('mailer')->send($message);
     }

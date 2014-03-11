@@ -13,6 +13,6 @@ class MenuController extends Controller
      */
     public function displayAction()
     {
-        return $this->render('PhilUserBundle:User:menu.html.twig');
+        return $this->render('PhilUserBundle:Menu:main.html.twig');
     }    
 }
