@@ -95,12 +95,11 @@ class ForgotPasswordController extends Controller
         // if the reset code was requested too long ago then the user must request a new code
         if ($user->getResetExpiryTime('U') < time())
         {
-            $this->get('session')->getFlashBag()->add('notice', "That password reset code has expired.");
-
             $user->clearPasswordReset();
             $em->persist($user);
             $em->flush();
-
+            
+            $this->get('session')->getFlashBag()->add('notice', "That password reset code has expired.");
             return $this->redirect($this->generateUrl('user_forgotPassword'));
         }
 

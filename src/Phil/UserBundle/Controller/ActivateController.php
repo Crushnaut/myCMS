@@ -50,7 +50,6 @@ class ActivateController extends Controller
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('notice', "" . $user->getUsername() ." has been activated. Please login.");
-
         return $this->redirect($this->generateUrl('login'));
 }
     
