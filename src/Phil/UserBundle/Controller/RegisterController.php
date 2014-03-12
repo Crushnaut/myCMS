@@ -22,23 +22,26 @@ class RegisterController extends Controller
         $form = $this->createForm(new RegistrationType(), new Registration());
         $form->handleRequest($request);
 
-        if ($form->isValid()) 
+        // if the form is not valid or has not been submitted display it
+        if ($form->isValid() === false) 
         {
-            $user = $form->getData()->getUser();
-            $role = $em->getRepository('PhilUserBundle:Role')->findOneByRole('ROLE_USER');
-            $user->addRole($role);
-
-            $em->persist($user);
-            $em->flush();
-
-            $this->sendActivationEmail($user);
-
-            $this->get('session')->getFlashBag()->add('notice', 'You have successfully registered. You have been sent an e-mail containing a code to activate your account. Enter it below before you can login.');
-
-            return $this->redirect($this->generateUrl('user_activate'));
+            return $this->render('PhilUserBundle:Register:registerForm.html.twig', array('form' => $form->createView()));
         }
 
-        return $this->render('PhilUserBundle:Register:registerForm.html.twig', array('form' => $form->createView()));
+        $user = $form->getData()->getUser();
+
+        // add default role, this should probably be specified in a constant in the config file
+        $role = $em->getRepository('PhilUserBundle:Role')->findOneByRole('ROLE_USER');
+        $user->addRole($role);
+
+        $em->persist($user);
+        $em->flush();
+
+        $this->sendActivationEmail($user);
+
+        $this->get('session')->getFlashBag()->add('notice', 'You have successfully registered. You have been sent an e-mail containing a code to activate your account. Enter it below before you can login.');
+
+        return $this->redirect($this->generateUrl('user_activate'));
     }
 
     /*
