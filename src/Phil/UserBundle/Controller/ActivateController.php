@@ -34,16 +34,14 @@ class ActivateController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('PhilUserBundle:User')->findOneByActivationCode($activationCode);
 
-            if ($user === null)
+            if (is_null($user) === true)
             {   
                 $this->get('session')->getFlashBag()->add('notice', "That is not a valid activation code.");
             }
 
-            if ($user && (false === $user->isEnabled()))
+            if (false === $user->isEnabled())
             {   
-                $user->setEnabled(true);
-                $user->setActivationCode(null);
-
+                $user->activate();
                 $em->persist($user);
                 $em->flush();
 
@@ -69,7 +67,7 @@ class ActivateController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('PhilUserBundle:User')->findOneByEmail($form->getData()->getEmail());
 
-            if ($user)
+            if (is_null($user) === false)
             {
                 if ($user->isEnabled())
                 {
@@ -77,16 +75,15 @@ class ActivateController extends Controller
                     $title = "Resend Activation Code";
                     return $this->render('PhilUserBundle:User:emailForm.html.twig', array('form' => $form->createView(), 'title' => $title));
                 }
-
+                
                 $this->sendActivationEmail($user);
                 $this->get('session')->getFlashBag()->add('notice', 'You have been sent an e-mail containing a code to activate your account. Enter it below before you can login.');
                 return $this->redirect($this->generateUrl('user_activate', array('userID' => $user->getID())));
             } 
-            else
-            {
-                $this->get('session')->getFlashBag()->add('notice', 'Specified e-mail address does not correspond with a user in our database.');
-            }
+
+            $this->get('session')->getFlashBag()->add('notice', 'Specified e-mail address does not correspond with a user in our database.');
         }
+
         $title = "Resend Activation Code";
         return $this->render('PhilUserBundle:User:emailForm.html.twig', array('form' => $form->createView(), 'title' => $title));
     }

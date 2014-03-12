@@ -510,9 +510,14 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return \DateTime 
      */
-    public function getResetTime()
+    public function getResetTime($format = null)
     {
-        return $this->resetTime;
+        if (is_null($format))
+        {
+            return $this->resetTime;
+        }
+
+        return $this->resetTime->format($format);
     }
 
     /**
@@ -618,6 +623,38 @@ class User implements AdvancedUserInterface, \Serializable
         $token = password_hash($token, PASSWORD_BCRYPT, array('cost' => mt_rand(5, 15)));
         $token = hash("sha256", $token, false);
         return $token;
+    }
+
+    public function activate()
+    {
+        $this->setEnabled(true);
+        $this->setActivationCode(null);
+    }
+
+    public function getResetExpiryTime($format = null)
+    {
+        $date = new \DateTime("@" . ($this->getResetTime('U') + 3600));
+
+        if (is_null($format))
+        {
+            return $date;
+        }
+
+        return $date->format($format);
+    }
+
+    public function expirePassword()
+    {
+        $this->setPasswordExpired(true);
+        $this->setResetTime(new \DateTime());
+        $this->resetResetCode();
+    }
+
+    public function clearPasswordReset()
+    {
+        $this->setResetTime(null);
+        $this->setResetCode(null);
+        $this->setPasswordExpired(false);
     }
 
 /**
