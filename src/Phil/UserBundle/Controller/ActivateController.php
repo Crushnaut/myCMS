@@ -41,6 +41,7 @@ class ActivateController extends Controller
         if (is_null($user))
         {   
             $this->get('session')->getFlashBag()->add('notice', "That is not a valid activation code.");
+            return $this->render('PhilUserBundle:Activate:activateForm.html.twig', array('form' => $form->createView()));
         }
 
         // if we pass all these checks then we can activate the user
