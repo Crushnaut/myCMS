@@ -15,7 +15,7 @@ class UserController extends Controller
 {   
     /**
      * The action called when the change password form is viewed or submitted.
-     * Only accessible if the user is fully authenticated.
+     * Only accessible if the user is fully authenticated. See security config.
      */
     public function changePasswordAction(Request $request)
     {
@@ -47,27 +47,18 @@ class UserController extends Controller
 
         $user = $this->get('security.context')->getToken()->getUser();
 
-        //$originalEmail = $user->getEmail();
-
         $form = $this->createForm(new UpdateType(), $user);
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {
-            /*if ($originalEmail !== $user->getEmail())
-            {
-                $user->setEnabled(false);
-                $user->resetActivationCode();
-                $this->get('session')->getFlashBag()->add('notice', 'Since you changed your e-mail you will have to reverify your account. Check your e-mail for this new code.');
-                $this->sendActivationEmail($user);
-            }*/
-
             $em->persist($user);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('notice', 'Your profile was successfully updated.');
             return $this->redirect($this->generateUrl('user_update'));
         }
+        
         return $this->render('PhilUserBundle:User:controlpanelForm.html.twig', array('form' => $form->createView()));
     }
 }
