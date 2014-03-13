@@ -14,19 +14,22 @@ class LoginController extends Controller
 {
     public function loginAction(Request $request)
     {
+        // if the user is already logged in redirect them away from the login page
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
             $this->get('session')->getFlashBag()->add('notice', 'You are already logged in.');
             return $this->redirect($this->generateUrl('user_update'));
         }
+
         $session = $request->getSession();
 
         // get the login error if there is one
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(
-                SecurityContext::AUTHENTICATION_ERROR
-            );
-        } else {
+        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) 
+        {
+            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+        } 
+        else 
+        {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
@@ -35,7 +38,7 @@ class LoginController extends Controller
         $lastLogin->setUsername($session->get(SecurityContext::LAST_USERNAME));
 
         // this triggers if the user is being asked to re-authenticate
-        if (is_null($lastLogin->getUsername()) && $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') && !($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')))
+        if (is_null($lastLogin->getUsername()) && $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
             $lastLogin->setUsername($this->get('security.context')->getToken()->getUser()->getUsername());
             $lastLogin->setRememberMe(true);
@@ -44,9 +47,6 @@ class LoginController extends Controller
 
         $form = $this->createForm(new LoginType(), $lastLogin, array('action' => $this->generateURL('login_check')));
 
-        return $this->render(
-            'PhilUserBundle:Login:loginForm.html.twig',
-            array('error' => $error, 'form' => $form->createView())
-        );
+        return $this->render('PhilUserBundle:Login:loginForm.html.twig', array('error' => $error, 'form' => $form->createView()));
     }
 }
