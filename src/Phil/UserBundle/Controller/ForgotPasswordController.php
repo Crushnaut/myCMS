@@ -12,6 +12,8 @@ use Phil\UserBundle\Form\Model\Email;
 
 use Phil\UserBundle\Entity\User;
 
+use Phil\UserBundle\Mailer\Mailer;
+
 class ForgotPasswordController extends Controller
 {
     /*
@@ -49,26 +51,15 @@ class ForgotPasswordController extends Controller
 
         // if we make it past all the checks above it is okay to begin the reset the password process by sending an email and flagging the account as password expired
         $user->expirePassword();
-        $this->sendPasswordResetEmail($user);
+
+        $mailer = $this->get('user_mailer');
+        $mailer->sendPasswordResetEmail($user);
+
         $em->persist($user);
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('notice', 'You have been sent an e-mail containing a link to reset your password.');
         return $this->redirect($this->generateUrl('user_forgotPassword'));   
-    }
-
-    /*
-     * Helper method for sending an e-mail to a user containing their password reset code.
-     */
-    public function sendPasswordResetEmail(User $user)
-    {
-        $message = \Swift_Message::newInstance()
-            ->setSubject('A password reset has been requested')
-            ->setFrom('philsymfony@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody($this->renderView('PhilUserBundle:Email:forgotpassword.txt.twig', array('user' => $user)));
-
-        $this->get('mailer')->send($message);
     }
 
     /*
@@ -98,7 +89,7 @@ class ForgotPasswordController extends Controller
             $user->clearPasswordReset();
             $em->persist($user);
             $em->flush();
-            
+
             $this->get('session')->getFlashBag()->add('notice', "That password reset code has expired.");
             return $this->redirect($this->generateUrl('user_forgotPassword'));
         }

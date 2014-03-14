@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: "@PhilUserBundle/Resources/config/services.yml"}
 
 framework:
     #esi:             ~
@@ -68,6 +69,7 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+#Genemu Form
 genemu_form:
     recaptcha:
         public_key:     "6Lc1a-8SAAAAACoaEoAujVc44L7cZnHu79tQRfER"

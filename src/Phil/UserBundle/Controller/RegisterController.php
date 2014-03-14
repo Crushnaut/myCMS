@@ -11,6 +11,8 @@ use Phil\UserBundle\Form\Type\RegistrationType;
 
 use Phil\UserBundle\Entity\User;
 
+use Phil\UserBundle\Mailer\Mailer;
+
 class RegisterController extends Controller
 {
     /*
@@ -34,27 +36,14 @@ class RegisterController extends Controller
         $role = $em->getRepository('PhilUserBundle:Role')->findOneByRole('ROLE_USER');
         $user->addRole($role);
 
+        $mailer = $this->get('user_mailer');
+        $mailer->sendActivationEmail($user);
+
         $em->persist($user);
         $em->flush();
-
-        $this->sendActivationEmail($user);
 
         $this->get('session')->getFlashBag()->add('notice', 'You have successfully registered. You have been sent an e-mail containing a code to activate your account. Enter it below before you can login.');
 
         return $this->redirect($this->generateUrl('user_activate'));
-    }
-
-    /*
-     * Helper method for sending an e-mail to a user containing their activation code.
-     */
-    public function sendActivationEmail(User $user)
-    {
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Registration successful! Please confirm e-mail.')
-            ->setFrom('philsymfony@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody($this->renderView('PhilUserBundle:Email:activation.txt.twig', array('user' => $user)));
-
-        $this->get('mailer')->send($message);
     }
 }

@@ -13,6 +13,8 @@ use Phil\UserBundle\Form\Model\Email;
 
 use Phil\UserBundle\Entity\User;
 
+use Phil\UserBundle\Mailer\Mailer;
+
 class ActivateController extends Controller
 {
     /*
@@ -88,22 +90,10 @@ class ActivateController extends Controller
         }
         
         // if we pass all the above tests we can send the activation email
-        $this->sendActivationEmail($user);
+        $mailer = $this->get('user_mailer');
+        $mailer->sendActivationEmail($user);
+
         $this->get('session')->getFlashBag()->add('notice', 'You have been sent an e-mail containing a code to activate your account. Enter it below before you can login.');
         return $this->redirect($this->generateUrl('user_activate', array('userID' => $user->getID())));
-    }
-
-    /*
-     * Helper method for sending an e-mail to a user containing their activation code.
-     */
-    public function sendActivationEmail(User $user)
-    {
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Registration successful! Please confirm e-mail.')
-            ->setFrom('philsymfony@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody($this->renderView('PhilUserBundle:Email:activation.txt.twig', array('user' => $user)));
-
-        $this->get('mailer')->send($message);
     }
 }
