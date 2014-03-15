@@ -35,6 +35,7 @@ class RegisterController extends Controller
         // add default role, this should probably be specified in a constant in the config file
         $role = $em->getRepository('PhilUserBundle:Role')->findOneByRole('ROLE_USER');
         $user->addRole($role);
+        $user->initializeActivationCode();
 
         $mailer = $this->get('user_mailer');
         $mailer->sendActivationEmail($user);

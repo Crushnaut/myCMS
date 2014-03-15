@@ -1,4 +1,5 @@
 {# src/Phil/UserBundle/Resources/views/Email/register.txt.twig #}
+Registration complete! Please activate your account.
 Hello {{ user.getFirstname }} {{ user.getLastname }},
 
 Thank you for registering at my site. In order to complete your registration you must confirm your e-mail address. Doing this is easy and can be done in one of two ways. Firstly, you can just follow this link: {{ url('user_activate', { 'activationCode': user.getActivationCode }) }}

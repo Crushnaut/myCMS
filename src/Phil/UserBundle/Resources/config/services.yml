@@ -1,7 +1,16 @@
 parameters:
     user_mailer.class:  Phil\UserBundle\Mailer\Mailer
+    user_mailer.activation.email.template:  'PhilUserBundle:Email:activation.txt.twig'
+    user_mailer.forgotpassword.email.template:  'PhilUserBundle:Email:forgotpassword.txt.twig'
+    user_mailer.fromemail:  'philsymfony@gmail.com'
 
 services:
     user_mailer:
         class:  "%user_mailer.class%"
-        arguments:  ["@mailer", "@templating"]
+        arguments:  
+            mailer: "@mailer"
+            templating: "@templating"
+            parameters: 
+                activation.template:    "%user_mailer.activation.email.template%"
+                forgotpassword.template:    "%user_mailer.forgotpassword.email.template%"
+                fromemail:  "%user_mailer.fromemail%"

@@ -12,10 +12,11 @@ class Mailer
 
     protected $templating;
 
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, array $parameters)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->parameters = $parameters;
     }
 
     /*
@@ -23,25 +24,33 @@ class Mailer
      */
     public function sendActivationEmail(User $user)
     {
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Registration successful! Please confirm e-mail.')
-            ->setFrom('philsymfony@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody($this->templating->render('PhilUserBundle:Email:activation.txt.twig', array('user' => $user)));
-
-        $this->mailer->send($message);
+        $template = $this->parameters['activation.template'];
+        $rendered = $this->templating->render($template, array('user' => $user));
+        $this->sendEmail($rendered, $this->parameters['fromemail'], $user->getEmail());
     }
 
     /*
-     * Helper method for sending an e-mail to a user containing their password reset code.
+     * Method for sending an e-mail to a user containing their password reset code.
      */
     public function sendPasswordResetEmail(User $user)
     {
+        $template = $this->parameters['forgotpassword.template'];
+        $rendered = $this->templating->render($template, array('user' => $user));
+        $this->sendEmail($rendered, $this->parameters['fromemail'], $user->getEmail());
+    }
+
+    public function sendEmail($template, $fromEmail, $toEmail)
+    {
+        // use the first line as the subject, rest as the body
+        $lines = explode("\n", trim($template));
+        $subject = $lines[0];
+        $body = implode("\n", array_slice($lines, 1));
+
         $message = \Swift_Message::newInstance()
-            ->setSubject('A password reset has been requested')
-            ->setFrom('philsymfony@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody($this->templating->render('PhilUserBundle:Email:forgotpassword.txt.twig', array('user' => $user)));
+            ->setSubject($subject)
+            ->setFrom($fromEmail)
+            ->setTo($toEmail)
+            ->setBody($body);
 
         $this->mailer->send($message);
     }

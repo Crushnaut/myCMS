@@ -657,14 +657,7 @@ class User implements AdvancedUserInterface, \Serializable
         $this->setPasswordExpired(false);
     }
 
-/**
- * Lifecycle Callbacks
- */
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function resetActivationCode()
+    public function initializeActivationCode()
     {
         $this->activationCode = $this->generateToken();
     }
