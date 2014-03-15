@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: "@PhilUserBundle/Resources/config/services.yml"}
+    - { resource: "@PhilUserBundle/Resources/config/config.yml"}
 
 framework:
     #esi:             ~

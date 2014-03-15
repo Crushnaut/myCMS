@@ -14,5 +14,10 @@ class MenuController extends Controller
     public function displayAction()
     {
         return $this->render('PhilUserBundle:Menu:main.html.twig');
-    }    
+    }
+
+    public function sidebarAction()
+    {
+        return $this->render('PhilUserBundle:Menu:side.html.twig');
+    }
 }

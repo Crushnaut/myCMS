@@ -1,0 +1,4 @@
+# src/Phil/UserBundle/Resources/config/config.yml
+
+parameters:
+    user.register.defaultRole:  "ROLE_USER"

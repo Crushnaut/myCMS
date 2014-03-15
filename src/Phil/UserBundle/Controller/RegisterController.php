@@ -32,8 +32,7 @@ class RegisterController extends Controller
 
         $user = $form->getData()->getUser();
 
-        // add default role, this should probably be specified in a constant in the config file
-        $role = $em->getRepository('PhilUserBundle:Role')->findOneByRole('ROLE_USER');
+        $role = $em->getRepository('PhilUserBundle:Role')->findOneByRole($this->container->getParameter('user.register.defaultRole'));
         $user->addRole($role);
         $user->initializeActivationCode();
 
