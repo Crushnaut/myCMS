@@ -32,6 +32,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @Assert\NotBlank(message = "You must enter a username.")
      * @Assert\Length(max = 32)
      * @Assert\Length(min = 3)
+     * @Assert\Regex(pattern="/[^A-Za-z0-9]/", match=false, message="Your username may only contain letters and numbers.")
      */
     private $username;
 
@@ -40,6 +41,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @Assert\NotBlank(message = "You must enter a first name")
      * @Assert\Length(max = 32)
      * @Assert\Length(min = 3)
+     * @Assert\Regex(pattern="/[^A-Za-z ]/", match=false, message="First name may only contain letters.")
      */
     private $firstname;
 
@@ -48,6 +50,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @Assert\NotBlank(message = "You must enter a last name")
      * @Assert\Length(max = 32)
      * @Assert\Length(min = 3)
+     * @Assert\Regex(pattern="/[^A-Za-z ]/", match=false, message="Last name may only contain letters.")
      */
     private $lastname;
 
@@ -159,7 +162,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setUsername($username)
     {
-        $this->username = $username;
+        $this->username = trim(strtolower($username);
 
         return $this;
     }
@@ -180,7 +183,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setFirstname($firstname)
     {
-        $this->firstname = $firstname;
+        $this->firstname = trim(strtolower($firstname));
 
         return $this;
     }
@@ -192,7 +195,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function getFirstname()
     {
-        return $this->firstname;
+        return ucwords($this->firstname);
     }
 
     /**
@@ -203,7 +206,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setLastname($lastname)
     {
-        $this->lastname = $lastname;
+        $this->lastname = trim(strtolower($lastname));
 
         return $this;
     }
@@ -215,7 +218,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function getLastname()
     {
-        return $this->lastname;
+        return ucwords($this->lastname);
     }
 
     /**
