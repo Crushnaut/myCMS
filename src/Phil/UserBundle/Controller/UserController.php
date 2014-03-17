@@ -28,6 +28,7 @@ class UserController extends Controller
 
         if ($form->isValid()) 
         {
+            $user->setPassword();
             $em->persist($user);
             $em->flush();
 

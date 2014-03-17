@@ -101,6 +101,7 @@ class ForgotPasswordController extends Controller
         if ($form->isValid()) 
         {
             $user->clearPasswordReset();
+            $user->setPassword();
             $em->persist($user);
             $em->flush();
 

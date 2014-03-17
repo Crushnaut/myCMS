@@ -62,11 +62,15 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=64)
+     */
+    private $password;
+
+    /**
      * @Assert\NotBlank(message = "You must enter a password")
      * @Assert\Length(max = 64)
      * @Assert\Length(min = 6)
      */
-    private $password;
+    private $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
@@ -162,7 +166,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setUsername($username)
     {
-        $this->username = trim(strtolower($username);
+        $this->username = trim(strtolower($username));
 
         return $this;
     }
@@ -272,10 +276,11 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @param string $password
      * @return User
+     * @ORM\PrePersist
      */
-    public function setPassword($password)
+    public function setPassword()
     {
-        $this->password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 15));
+        $this->password = password_hash($this->plainPassword, PASSWORD_BCRYPT, array('cost' => 15));
 
         return $this;
     }
@@ -286,6 +291,27 @@ class User implements AdvancedUserInterface, \Serializable
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * Set plaintext password, not persisted
+     *
+     * @param string $password
+     * @return User
+     */
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
     }
 
     /**

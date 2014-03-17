@@ -15,7 +15,7 @@ class UserType extends AbstractType
         $builder->add('lastname', 'text');
         $builder->add('birthday', 'birthday');
         $builder->add('email', 'email');
-        $builder->add('password', 'repeated', array(
+        $builder->add('plainPassword', 'repeated', array(
            'type'        => 'password',
            'invalid_message' => 'The password fields must match.',
             'first_options'  => array('label' => 'Password'),
