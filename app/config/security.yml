@@ -12,7 +12,7 @@ security:
                 password_parameter: login[password]
                 csrf_parameter: login[_token]
             logout:
-                path:   /logout
+                path:   /user/logout
                 target: /
             remember_me:
                 key:    "Ov757K1#V~I}z-CR43c7~mx55B&8Qq"
@@ -24,6 +24,10 @@ security:
         - { path: ^/user/confirm.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/resendActivation, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/forgotPassword.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/changepassword, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/user, roles: ROLE_USER }
 

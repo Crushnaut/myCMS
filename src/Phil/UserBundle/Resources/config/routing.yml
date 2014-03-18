@@ -1,16 +1,16 @@
 # src/Phil/UserBundle/Resources/routing.yml
 login:
-    path:   /login
+    path:   /user/login
     defaults:   { _controller: PhilUserBundle:Login:login }
 
 login_check:
-    path:   /login_check
+    path:   /user/login_check
 
 logout:
-    path:   /logout
+    path:   /user/logout
 
 user_register:
-    path:   /register
+    path:   /user/register
     defaults: { _controller: PhilUserBundle:Register:create }
 
 user_update:

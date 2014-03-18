@@ -649,7 +649,7 @@ class User implements AdvancedUserInterface, \Serializable
     private function generateToken()
     {
         $token = (time() + mt_rand(-1, 1) * mt_rand(0, time()) + mt_rand(-1, 1) * mt_rand(0, time()) + mt_rand(-1, 1) * mt_rand(0, time()) + mt_rand(-1, 1) * mt_rand(0, time())) * $this->getId();
-        $token = password_hash($token, PASSWORD_BCRYPT, array('cost' => mt_rand(5, 15)));
+        $token = password_hash($token, PASSWORD_BCRYPT, array('cost' => round(mt_rand(5, 15))));
         $token = hash("sha256", $token, false);
         return $token;
     }
