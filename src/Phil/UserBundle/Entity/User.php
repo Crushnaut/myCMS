@@ -646,6 +646,9 @@ class User implements AdvancedUserInterface, \Serializable
 /**
  * Utility Functions
  */
+    /*
+     * Function to generate a token for email confirmation and password reset. Will eventually move into a service.
+     */
     private function generateToken()
     {
         $token = (time() + mt_rand(-1, 1) * mt_rand(0, time()) + mt_rand(-1, 1) * mt_rand(0, time()) + mt_rand(-1, 1) * mt_rand(0, time()) + mt_rand(-1, 1) * mt_rand(0, time())) * $this->getId();
@@ -654,12 +657,19 @@ class User implements AdvancedUserInterface, \Serializable
         return $token;
     }
 
+    /*
+     * Called after a user confirms their account via email.
+     */
     public function activate()
     {
         $this->setEnabled(true);
         $this->setActivationCode(null);
     }
 
+    /*
+     * Returns the time until the user can request a new password
+     * Need to move the 3600 into a constant or parameter or something
+     */
     public function getResetExpiryTime($format = null)
     {
         $date = new \DateTime("@" . ($this->getResetTime('U') + 3600));
@@ -672,6 +682,9 @@ class User implements AdvancedUserInterface, \Serializable
         return $date->format($format);
     }
 
+    /*
+     * Actions performed when a user requests a password reset via email
+     */
     public function expirePassword()
     {
         $this->setPasswordExpired(true);
@@ -679,6 +692,9 @@ class User implements AdvancedUserInterface, \Serializable
         $this->resetResetCode();
     }
 
+    /*
+     * Actions performed after a user has reset their password via email
+     */
     public function clearPasswordReset()
     {
         $this->setResetTime(null);
@@ -686,6 +702,9 @@ class User implements AdvancedUserInterface, \Serializable
         $this->setPasswordExpired(false);
     }
 
+    /*
+     * Generates a token for the activation code, used after a user registers or changes their email
+     */
     public function initializeActivationCode()
     {
         $this->activationCode = $this->generateToken();
