@@ -668,7 +668,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /*
      * Returns the time until the user can request a new password
-     * Need to move the 3600 into a constant or parameter or something
+     * Need to move the 3600 into a constant or parameter or something 
      */
     public function getResetExpiryTime($format = null)
     {
